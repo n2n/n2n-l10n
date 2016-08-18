@@ -21,15 +21,15 @@
  */
 namespace n2n\l10n;
 
-use n2n\http\Redirect;
+use n2n\web\http\Redirect;
 use n2n\util\StringUtils;
-use n2n\N2N;
-use n2n\http\Response;
-use n2n\http\Request;
+use n2n\core\N2N;
+use n2n\web\http\Response;
+use n2n\web\http\Request;
 use n2n\util\UnserializationFailedException;
 use n2n\core\ShutdownListener;
 use n2n\model\ThreadScoped;
-use n2n\http\HttpContext;
+use n2n\web\http\HttpContext;
 
 class MessageContainer implements ShutdownListener, ThreadScoped {
 	const SESSION_KEY = 'messageContainer.messages';

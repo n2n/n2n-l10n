@@ -24,7 +24,7 @@ namespace n2n\l10n;
 use n2n\reflection\ArgUtils;
 use n2n\l10n\N2nLocale;
 use n2n\l10n\TextCollectionLoader;
-use n2n\N2N;
+use n2n\core\N2N;
 
 class DynamicTextCollection {
 	const LANG_NS_EXT = 'lang';

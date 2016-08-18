@@ -21,7 +21,7 @@
  */
 namespace n2n\l10n;
 
-use n2n\N2N;
+use n2n\core\N2N;
 
 class L10nUtils {
 	public static function isL10nSupportAvailable() {
