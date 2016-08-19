@@ -28,7 +28,7 @@ use n2n\web\http\Response;
 use n2n\web\http\Request;
 use n2n\util\UnserializationFailedException;
 use n2n\core\ShutdownListener;
-use n2n\model\ThreadScoped;
+use n2n\context\ThreadScoped;
 use n2n\web\http\HttpContext;
 
 class MessageContainer implements ShutdownListener, ThreadScoped {
