@@ -46,7 +46,8 @@ class DateTimeFormat {
 		return self::createDateTimeInstance($n2nLocale, self::STYLE_NONE, $timeStyle, $timeZone);
 	}
 	
-	public static function createDateTimeInstance($n2nLocale, $dateStyle, $timeStyle, \DateTimeZone $timeZone = null) {
+	public static function createDateTimeInstance($n2nLocale, $dateStyle = self::STYLE_MEDIUM, 
+			$timeStyle = self::STYLE_SHORT, \DateTimeZone $timeZone = null) {
 		if ($n2nLocale === null) $n2nLocale = N2nLocale::getDefault();
 		if ($timeZone === null) $timeZone = new \DateTimeZone(date_default_timezone_get());
 		
