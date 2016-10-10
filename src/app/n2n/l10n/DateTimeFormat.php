@@ -158,11 +158,12 @@ class DateTimeFormat {
 	public function parse($str) {
 		if (isset($this->intlDateFormatter)) {
 			$timestamp = $this->intlDateFormatter->parse($str);
-			if (!$timestamp) {
+			if (!$timestamp || is_float($timestamp)) {
 				throw new ParseException('Unable to parse: ' . $str);
 			}
+			
 			$dt = new \DateTime();
-			$dt->setTimestamp((int) $timestamp);
+			$dt->setTimestamp($timestamp);
 			if (null !== ($timeZoneId = $this->intlDateFormatter->getTimeZoneId())) {
 				$dt->setTimezone(new \DateTimeZone($timeZoneId));
 			}
