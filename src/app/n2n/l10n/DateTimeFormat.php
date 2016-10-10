@@ -162,7 +162,7 @@ class DateTimeFormat {
 				throw new ParseException('Unable to parse: ' . $str);
 			}
 			$dt = new \DateTime();
-			$dt->setTimestamp($timestamp);
+			$dt->setTimestamp((int) $timestamp);
 			if (null !== ($timeZoneId = $this->intlDateFormatter->getTimeZoneId())) {
 				$dt->setTimezone(new \DateTimeZone($timeZoneId));
 			}
