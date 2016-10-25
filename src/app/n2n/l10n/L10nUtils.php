@@ -37,8 +37,7 @@ class L10nUtils {
 	
 	public static function translateModuleTextCode(DynamicTextCollection $dtc, $module, 
 			$textCode, array $args = null, $num = null) {
-		$fallbackToCode = $module === null 
-				|| $dtc->containsModule($module);
+		$fallbackToCode = $module === null || $dtc->containsModule($module);
 		
 		if (null !== ($text = $dtc->translate($textCode, $args, $num, $fallbackToCode))) {
 			return $text;
