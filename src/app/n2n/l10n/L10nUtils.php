@@ -47,12 +47,12 @@ class L10nUtils {
 		return $dtc->translate($textCode, $args, $num);
 	}
 	
-	public static function formatNumber($n2nLocale, $value, $style = \NumberFormatter::DECIMAL, $pattern = null) {
+	public static function formatNumber($value, $n2nLocale, $style = \NumberFormatter::DECIMAL, $pattern = null) {
 		$nf = new \NumberFormatter((string) $n2nLocale, $style, $pattern);
 		return $nf->format($value);
 	}
 		
-	public static function formatCurrency($n2nLocale, $value, $currency = null) {
+	public static function formatCurrency($value, $n2nLocale, $currency = null) {
 		$nf = new \NumberFormatter((string) $n2nLocale, \NumberFormatter::CURRENCY);
 		if ($currency) {
 			return $nf->formatCurrency($value, $currency);
