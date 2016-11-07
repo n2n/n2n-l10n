@@ -36,15 +36,15 @@ class L10nUtils {
 	}
 	
 	public static function translateModuleTextCode(DynamicTextCollection $dtc, $module, 
-			$textCode, array $args = null, $num = null) {
+			$textCode, array $args = null, $num = null, array $replacements = null) {
 		$fallbackToCode = $module === null || $dtc->containsModule($module);
 		
-		if (null !== ($text = $dtc->translate($textCode, $args, $num, $fallbackToCode))) {
+		if (null !== ($text = $dtc->translate($textCode, $args, $num, $replacements, $fallbackToCode))) {
 			return $text;
 		}
 					
 		$dtc = new DynamicTextCollection($module, $dtc->getN2nLocaleIds());
-		return $dtc->translate($textCode, $args, $num);
+		return $dtc->translate($textCode, $args, $num, $replacements);
 	}
 	
 	public static function formatNumber($value, $n2nLocale, $style = \NumberFormatter::DECIMAL, $pattern = null) {

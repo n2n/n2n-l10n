@@ -39,7 +39,7 @@ class Lstr {
 		}
 		
 		$dtc = new DynamicTextCollection($this->moduleNamespace, $n2nLocale);
-		return $dtc->translate($this->textOrCode, $this->args, $this->num, $this->fallbackToCode);
+		return $dtc->translate($this->textOrCode, $this->args, $this->num, null, $this->fallbackToCode);
 	}
 	
 	public function __toString() {

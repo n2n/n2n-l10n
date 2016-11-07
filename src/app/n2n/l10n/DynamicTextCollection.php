@@ -29,6 +29,9 @@ use n2n\core\N2N;
 class DynamicTextCollection {
 	const LANG_NS_EXT = 'lang';
 	
+	const REPLACEMENT_PREFIX = '[';
+	const REPLACEMENT_SUFFIX = ']';
+	
 	private $n2nLocaleIds = array();
 	private $langNamespaces = array();
 	/**
@@ -108,10 +111,12 @@ class DynamicTextCollection {
 	 * @param boolean $fallbackToCode
 	 * @return string
 	 */
-	public function translate($code, array $args = null, $num = null, $fallbackToCode = true) {
+	public function translate(string $code, array $args = null, int $num = null, array $replacements = null, bool $fallbackToCode = true) {
 		foreach ($this->n2nLocaleIds as $n2nLocaleId) {
 			$text = $this->translateForN2nLocale($n2nLocaleId, $code, (array) $args, $num);
-			if ($text !== null) return $text;
+			if ($text !== null) {
+				return $this->replace($text, $replacements);
+			}
 		}
 		
 		if ($fallbackToCode) {
@@ -119,6 +124,15 @@ class DynamicTextCollection {
 		}
 		
 		return null;
+	}
+	
+	private function replace($text, array $replacements = null) {
+		if ($replacements === null) return $text;
+		
+		foreach ($replacements as $key => $replacement) {
+			$text = str_replace(self::REPLACEMENT_PREFIX . $key . self::REPLACEMENT_SUFFIX, $replacement, $text);
+		}
+		return $text;
 	}
 	
 	private function translateForN2nLocale($n2nLocaleId, $code, array $args, $num) {
