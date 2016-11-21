@@ -52,6 +52,12 @@ class L10nUtils {
 		return $nf->format($value);
 	}
 		
+	/**
+	 * @param float $value
+	 * @param N2nLocale|string $n2nLocale
+	 * @param string $currency The 3-letter ISO 4217 currency code indicating the currency to use.
+	 * @return string
+	 */
 	public static function formatCurrency($value, $n2nLocale, $currency = null) {
 		$nf = new \NumberFormatter((string) $n2nLocale, \NumberFormatter::CURRENCY);
 		if ($currency) {
