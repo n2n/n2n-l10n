@@ -149,9 +149,8 @@ class DynamicTextCollection {
 	
 	public function containsTextCode($textCode) {
 		foreach ($this->n2nLocaleIds as $n2nLocaleId) {
-			foreach ($this->langNamespaces as $moduleNamespace) {
-				$tc = TextCollectionLoader::loadIfExists($moduleNamespace . '\\' . self::LANG_NS_EXT . '\\' 
-					. $n2nLocaleId);
+			foreach ($this->langNamespaces as $langNamespace) {
+				$tc = TextCollectionLoader::loadIfExists($langNamespace . '\\' . $n2nLocaleId);
 				if ($tc !== null && $tc->has($textCode)) return true;
 			}	
 		}
