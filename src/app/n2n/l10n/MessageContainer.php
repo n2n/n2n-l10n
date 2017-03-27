@@ -25,7 +25,6 @@ use n2n\web\http\Redirect;
 use n2n\util\StringUtils;
 use n2n\core\N2N;
 use n2n\web\http\Response;
-use n2n\web\http\Request;
 use n2n\util\UnserializationFailedException;
 use n2n\core\ShutdownListener;
 use n2n\context\ThreadScoped;
