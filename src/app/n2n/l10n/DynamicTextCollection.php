@@ -104,6 +104,21 @@ class DynamicTextCollection {
 	public function containsModule($module) {
 		return isset($this->langNamespaces[$this->buildModuleLangNs($module)]);
 	}
+
+	public function isEmpty() {
+		foreach ($this->n2nLocaleIds as $n2nLocaleId) {
+			foreach ($this->langNamespaces as $langNamespace) {
+				$tc = TextCollectionLoader::loadIfExists($langNamespace . '\\' . $n2nLocaleId);
+					
+				if ($tc !== null && !$tc->isEmpty()) {
+					return false;
+				}
+			}
+		}
+	
+		return true;
+	}
+	
 	/**
 	 * @param unknown $code
 	 * @param array $args
