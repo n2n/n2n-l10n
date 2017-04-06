@@ -38,6 +38,14 @@ class TextCollection {
 	public function containsCode($code) {
 		return isset($this->texts[$code]);
 	}
+	
+	/**
+	 * @return boolean
+	 */
+	public function isEmpty() {
+		return empty($this->texts);
+	}
+	
 	/**
 	 * @return array
 	 */

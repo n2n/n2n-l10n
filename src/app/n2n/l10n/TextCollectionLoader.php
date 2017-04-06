@@ -45,7 +45,7 @@ class TextCollectionLoader {
 	}
 	/**
 	 * @param string $typeName
-	 * @return \n2n\core\TextCollection
+	 * @return \n2n\l10n\TextCollection
 	 * @throws \n2n\core\TypeNotFoundException
 	 */
 	public static function load($typeName) {
@@ -58,7 +58,7 @@ class TextCollectionLoader {
 	}
 	/**
 	 * @param string $typeName
-	 * @return \n2n\core\TextCollection
+	 * @return \n2n\l10n\TextCollection
 	 */
 	public static function loadIfExists($typeName) {
 		if (array_key_exists($typeName, self::$textCollections)) {
