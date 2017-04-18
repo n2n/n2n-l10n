@@ -120,13 +120,27 @@ class DynamicTextCollection {
 	}
 	
 	/**
-	 * @param unknown $code
+	 * @param string $code
+	 * @param array $args
+	 * @param int $num
+	 * @param array $replacements
+	 * @param bool $fallbackToCode
+	 * @return string
+	 */
+	public function t(string $code, array $args = null, int $num = null, array $replacements = null, 
+			bool $fallbackToCode = true) {
+		return $this->translate($code, $args, $num, $replacements, $fallbackToCode);
+	}
+	
+	/**
+	 * @param string $code
 	 * @param array $args
 	 * @param int $num
 	 * @param boolean $fallbackToCode
 	 * @return string
 	 */
-	public function translate(string $code, array $args = null, int $num = null, array $replacements = null, bool $fallbackToCode = true) {
+	public function translate(string $code, array $args = null, int $num = null, array $replacements = null, 
+			bool $fallbackToCode = true) {
 		foreach ($this->n2nLocaleIds as $n2nLocaleId) {
 			$text = $this->translateForN2nLocale($n2nLocaleId, $code, (array) $args, $num);
 			if ($text !== null) {
