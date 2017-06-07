@@ -57,7 +57,7 @@ class MessageContainer implements ShutdownListener, ThreadScoped {
 	}
 	
 	public function onShutdown() {
-		if (!($this->response->getSentResponseThing() instanceof Redirect)) return;
+		if (!($this->response->getSentResponseObject() instanceof Redirect)) return;
 		$this->httpContext->getSession()->set(N2N::NS, self::SESSION_KEY, serialize($this->messages));
 	}
 	/**
