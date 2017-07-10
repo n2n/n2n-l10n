@@ -108,6 +108,15 @@ class L10nUtils {
 		return $dateFormat->format($dateTime);
 	}
 	
+	/**
+	 * @param unknown $expression
+	 * @param unknown $n2nLocale
+	 * @param unknown $dateStyle
+	 * @param unknown $timeStyle
+	 * @param \DateTimeZone $timeZone
+	 * @param string $lenient
+	 * @return DateTime
+	 */
 	public static function parseDateTime($expression, $n2nLocale, $dateStyle = null, $timeStyle = null, 
 			\DateTimeZone $timeZone = null, $lenient = true) {
 		if ($dateStyle === null) $dateStyle = self::determineDateStyle($n2nLocale, false);
@@ -118,19 +127,29 @@ class L10nUtils {
 		return $dateFormat->parse($expression);
 	}
 	
-	public static function determineDateStyle(N2nLocale $n2nLocale, $useInput = false) {
+	/**
+	 * @param N2nLocale $n2nLocale
+	 * @param bool $useInput
+	 * @return string
+	 */
+	public static function determineDateStyle(N2nLocale $n2nLocale, bool $useInput = false) {
 		if (null !== ($style = L10n::getL10nConfig()->getStyle($n2nLocale))) {
-			return $style->getDefaultDateStyle();	
+			return $useInput ? $style->geDefaultInputDateStyle() : $style->getDefaultDateStyle();
 		}
 		
 		return DateTimeFormat::STYLE_MEDIUM;
 	}
 	
-	public static function determineTimeStyle(N2nLocale $n2nLocale, $useInput = false) {	
+	/**
+	 * @param N2nLocale $n2nLocale
+	 * @param bool $useInput
+	 * @return string
+	 */
+	public static function determineTimeStyle(N2nLocale $n2nLocale, bool $useInput = false) {
 		if (null !== ($style = N2N::getAppConfig()->l10n()->getStyle($n2nLocale))) {
-			return $useInput ? $style->getInputTimeStyle() : $style->getDefaultTimeStyle();
+			return $useInput ? $style->getDefaultInputTimeStyle() : $style->getDefaultTimeStyle();
 		}
-	
+		
 		return DateTimeFormat::STYLE_SHORT;
 	}
 }
