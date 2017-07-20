@@ -31,7 +31,7 @@ class SimpleDateTimeFormat {
 		$this->timeZone = $timeZone;
 		
 		if ($timeZone !== null) {
-			$this->formatter->setTimeZoneId($timeZone->getName());
+			$this->formatter->setTimeZone($timeZone->getName());
 		}
 	}
 	/**
