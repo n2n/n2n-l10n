@@ -40,9 +40,7 @@ class DynamicTextCollection {
 	 * @param bool $fallbackToDefaultN2nLocale
 	 */
 	public function __construct($modules, $n2nLocales, bool $includeFallbackN2nLocale = true) {
-		foreach (ArgUtils::toArray($n2nLocales) as $n2nLocale) {
-			$this->assignN2nLocale($n2nLocale);
-		}
+		$this->assignN2nLocales(ArgUtils::toArray($n2nLocales));
 		
 		if ($includeFallbackN2nLocale) {
 			$this->assignN2nLocale(N2nLocale::getFallback());
@@ -60,31 +58,43 @@ class DynamicTextCollection {
 	public function getLangNamespaces() {
 		return $this->langNamespaces;
 	}
+	
 	/**
 	 * @param array $n2nLocales
 	 */
-	private function assignN2nLocales(array $n2nLocales) {
-		foreach ($n2nLocales as $n2nLocale) {
-			$this->assignN2nLocale($n2nLocale);
+	public function assignN2nLocales(array $n2nLocales, bool $prepend = false) {
+		$newN2nLocaleIds = $this->buildN2nLocaleIdArr($n2nLocales);
+		
+		if ($prepend) {
+			$this->n2nLocaleIds = $newN2nLocaleIds + $this->n2nLocaleIds;
+		} else {
+			$this->n2nLocaleIds += $newN2nLocaleIds;
 		}
 	}
+	
 	/**
 	 * @param mixed $n2nLocale
 	 */
-	public function assignN2nLocale($n2nLocale) {
-		if (!($n2nLocale instanceof N2nLocale)) {
-			$n2nLocale = new N2nLocale($n2nLocale);
+	public function assignN2nLocale($n2nLocale, bool $prepend = false) {
+		$this->assignN2nLocales(array($n2nLocale), $prepend);
+	}
+	
+	private function buildN2nLocaleIdArr(array $n2nLocales) {
+		$n2nLocaleIds = array();
+		
+		foreach ($n2nLocales as $n2nLocale) {
+			if (!($n2nLocale instanceof N2nLocale)) {
+				$n2nLocale = new N2nLocale($n2nLocale);
+			}
+			
+			$n2nLocaleId = $n2nLocale->getId();
+			$n2nLocaleIds[$n2nLocaleId] = $n2nLocaleId;
+			
+			$languageId = $n2nLocale->getLanguageId();
+			$n2nLocaleIds[$languageId] = $languageId;
 		}
 		
-		$n2nLocaleId = $n2nLocale->getId();
-		if (!isset($this->n2nLocaleIds[$n2nLocaleId])) {
-			$this->n2nLocaleIds[$n2nLocaleId] = $n2nLocaleId;
-		}
-		
-		$languageId = $n2nLocale->getLanguageId();
-		if (!isset($this->n2nLocaleIds[$languageId])) {
-			$this->n2nLocaleIds[$languageId] = $languageId;	
-		}
+		return $n2nLocaleIds;
 	}
 	
 	private function buildModuleLangNs($module) {
@@ -93,12 +103,16 @@ class DynamicTextCollection {
 	/**
 	 * @param mixed $module
 	 */
-	public function assignModule($module) {
-		$this->addLangNamespace($this->buildModuleLangNs($module));
+	public function assignModule($module, bool $prepend = false) {
+		$this->addLangNamespace($this->buildModuleLangNs($module), $prepend);
 	}
 	
-	public function addLangNamespace($langNamespace) {
-		$this->langNamespaces[$langNamespace] = $langNamespace;
+	public function addLangNamespace($langNamespace, bool $prepend = false) {
+		if (!$prepend) {
+			$this->langNamespaces[$langNamespace] = $langNamespace;
+		} else {
+			$this->langNamespaces = array($langNamespace => $langNamespace) + $this->langNamespaces;
+		}
 	}
 	
 	public function containsModule($module) {
