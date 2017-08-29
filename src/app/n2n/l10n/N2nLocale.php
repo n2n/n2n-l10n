@@ -21,7 +21,10 @@
  */
 namespace n2n\l10n;
 
-class N2nLocale {
+use n2n\reflection\ArgUtils;
+use n2n\util\uri\UrlableElement;
+
+class N2nLocale implements UrlableElement {
 	private $id;
 	/**
 	 * 
@@ -104,12 +107,28 @@ class N2nLocale {
 	
 	/**
 	 * ISO 639-1 - ISO 3166-1 Alpha 2
+	 * @param bool $ignoreAliases
 	 * @return string
 	 */
-	public function toHttpId() {
+	public function toWebId(bool $ignoreAliases = false) {
+		if (!$ignoreAliases && null !== ($alias = self::getWebAliasForN2nLocale($this))) {
+			return $alias;
+		}
+		
 		return mb_strtolower(str_replace('_', '-', $this->getId()));
 	}
 	
+	/**
+	 * @deprecated use {@see self::toWebId()}
+	 * @return string
+	 */
+	public function toHttpId() {
+		return $this->toWebId(true);
+	}
+	
+	/**
+	 * @return string
+	 */
 	public function toPrettyId() {
 		$str =  mb_strtoupper($this->getLanguageId());
 
@@ -120,12 +139,26 @@ class N2nLocale {
 		 return $str;
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 * @see \n2n\util\uri\UrlableElement::urlify()
+	 */
+	public function urlify(): string {
+		return $this->toWebId();
+	}
+	
+	/**
+	 * @return string
+	 */
 	public function __toString(): string {
 		return $this->id;
 	}
+	
 	/**
 	 * @param string $httpN2nLocaleShort
+	 * @return string
 	 * @throws IllegalN2nLocaleFormatException
+	 * @deprecated use {@see self::parseWebId}
 	 */
 	public static function parseHttpN2nLocaleId($httpN2nLocaleShort) {
 		if (mb_strlen($httpN2nLocaleShort) < 2) {
@@ -133,6 +166,23 @@ class N2nLocale {
 		}
 		
 		return str_replace('-', '_', mb_substr($httpN2nLocaleShort, 0, 3) . mb_strtoupper(mb_substr($httpN2nLocaleShort, 3, 2)));
+	}
+	
+	/**
+	 * @param string $httpN2nLocaleShort
+	 * @return string
+	 * @throws IllegalN2nLocaleFormatException
+	 */
+	public static function parseWebId(string $webId, bool $ignoreAliases = false) {
+		if (!$ignoreAliases && isset(self::$webAliasN2nLocales[$webId])) {
+			return self::$webAliasN2nLocales[$webId]->getId();
+		}
+		
+		if (mb_strlen($webId) < 2) {
+			throw new IllegalN2nLocaleFormatException('Invalid http locale id: ' . $webId);
+		}
+		
+		return str_replace('-', '_', mb_substr($webId, 0, 3) . mb_strtoupper(mb_substr($webId, 3, 2)));
 	}
 	
 	public static function acceptFromHttp($httpAcceptLanguage) {
@@ -192,6 +242,43 @@ class N2nLocale {
 		self::$adminN2nLocale = $adminN2nLocale;
 	}
 	
+	private static $webAliasN2nLocales;
+	
+	/**
+	 * @return N2nLocale[]
+	 */
+	public static function getWebAliases() {
+		return self::$webAliasN2nLocales;
+	}
+
+	/**
+	 * @param N2nLocale[] $webAliases
+	 */
+	public static function setWebAliases(array $webAliases) {
+		ArgUtils::valArrayLike($webAliases, N2nLocale::class);
+		
+		self::$webAliasN2nLocales = $webAliases;
+	}
+	
+	/**
+	 * @param string $webAlias
+	 * @return bool
+	 */
+	public static function containsWebAlias(string $webAlias) {
+		return isset(self::$webAliasN2nLocales[$webAlias]);
+	}
+	
+	/**
+	 * @param N2nLocale $n2nLocale
+	 * @return string
+	 */
+	public static function getWebAliasForN2nLocale(N2nLocale $n2nLocale) {
+		foreach (self::$webAliasN2nLocales as $webAlias => $aliasN2nLocale) {
+			if ($aliasN2nLocale->equals($n2nLocale)) return $webAlias;
+		}
+		
+		return null;
+	}
 	
 	/**
 	 * @param mixed $expression
@@ -202,12 +289,39 @@ class N2nLocale {
 		return new N2nLocale($expression);
 	}
 	
+	/**
+	 * @param mixed $expression
+	 * @return \n2n\l10n\N2nLocale|null
+	 */
 	public static function build($expression) {
 		if ($expression === null || $expression instanceof N2nLocale) return $expression;
 		return new N2nLocale($expression);
 	}
 	
-	public static function createFromHttpId(string $n2nLocaleHttpId) {
-		return new N2nLocale(self::parseHttpN2nLocaleId($n2nLocaleHttpId));
+	/**
+	 * @param string $webId
+	 * @param bool $ignoreAliases
+	 * @param bool $lenient
+	 * @throws IllegalN2nLocaleFormatException
+	 * @return \n2n\l10n\N2nLocale
+	 */
+	public static function fromWebId(string $webId, bool $ignoreAliases = false, bool $lenient = false) {
+		if (!$ignoreAliases && isset(self::$webAliasN2nLocales[$webId])) {
+			return self::$webAliasN2nLocales[$webId];
+		}
+		
+		$n2nLocale = new N2nLocale(self::parseWebId($webId, true));
+		if ($lenient) {
+			return $n2nLocale;
+		}
+		
+		$alias = self::getWebAliasForN2nLocale($n2nLocale);
+		if (null === $alias) {
+			return $n2nLocale;
+		}
+		
+		throw new IllegalN2nLocaleFormatException('Invalid web locale id \'' . $webId
+				. '\'. For N2nLocale ' . $n2nLocale . ' is only the alias \'' . $alias
+				. '\' acceptable.');
 	}
 }
