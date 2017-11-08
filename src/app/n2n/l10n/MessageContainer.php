@@ -21,7 +21,7 @@
  */
 namespace n2n\l10n;
 
-use n2n\web\http\Redirect;
+use n2n\web\http\payload\impl\Redirect;
 use n2n\util\StringUtils;
 use n2n\core\N2N;
 use n2n\web\http\Response;
@@ -57,7 +57,7 @@ class MessageContainer implements ShutdownListener, ThreadScoped {
 	}
 	
 	public function onShutdown() {
-		if (!($this->response->getSentResponseObject() instanceof Redirect)) return;
+		if (!($this->response->getSentPayload() instanceof Redirect)) return;
 		$this->httpContext->getSession()->set(N2N::NS, self::SESSION_KEY, serialize($this->messages));
 	}
 	/**
