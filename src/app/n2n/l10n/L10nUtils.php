@@ -109,13 +109,13 @@ class L10nUtils {
 	}
 	
 	/**
-	 * @param unknown $expression
-	 * @param unknown $n2nLocale
-	 * @param unknown $dateStyle
-	 * @param unknown $timeStyle
+	 * @param string $expression
+	 * @param N2nLocale $n2nLocale
+	 * @param string $dateStyle
+	 * @param string $timeStyle
 	 * @param \DateTimeZone $timeZone
-	 * @param string $lenient
-	 * @return DateTime
+	 * @param bool $lenient
+	 * @return \DateTime
 	 */
 	public static function parseDateTime($expression, $n2nLocale, $dateStyle = null, $timeStyle = null, 
 			\DateTimeZone $timeZone = null, $lenient = true) {

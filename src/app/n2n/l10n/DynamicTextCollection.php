@@ -22,9 +22,7 @@
 namespace n2n\l10n;
 
 use n2n\reflection\ArgUtils;
-use n2n\l10n\N2nLocale;
-use n2n\l10n\TextCollectionLoader;
-use n2n\core\N2N;
+use n2n\core\module\Module;
 
 class DynamicTextCollection {
 	const LANG_NS_EXT = 'lang';
@@ -35,8 +33,8 @@ class DynamicTextCollection {
 	private $n2nLocaleIds = array();
 	private $langNamespaces = array();
 	/**
-	 * @param unknown $modules
-	 * @param unknown $n2nLocales
+	 * @param Module|Module[]|string|string[] $modules
+	 * @param N2nLocale|N2nLocale[]|string|string[] $n2nLocales
 	 * @param bool $fallbackToDefaultN2nLocale
 	 */
 	public function __construct($modules, $n2nLocales, bool $includeFallbackN2nLocale = true) {
@@ -51,16 +49,22 @@ class DynamicTextCollection {
 		}
 	}
 	
+	/**
+	 * @return string[]
+	 */
 	public function getN2nLocaleIds() {
 		return $this->n2nLocaleIds;
 	}
 	
+	/**
+	 * @return string[]
+	 */
 	public function getLangNamespaces() {
 		return $this->langNamespaces;
 	}
 	
 	/**
-	 * @param array $n2nLocales
+	 * @param N2nLocale[]|string[] $n2nLocales
 	 */
 	public function assignN2nLocales(array $n2nLocales, bool $prepend = false) {
 		$newN2nLocaleIds = $this->buildN2nLocaleIdArr($n2nLocales);
@@ -73,7 +77,8 @@ class DynamicTextCollection {
 	}
 	
 	/**
-	 * @param mixed $n2nLocale
+	 * @param N2nLocale|string $n2nLocale
+	 * @param bool $prepend
 	 */
 	public function assignN2nLocale($n2nLocale, bool $prepend = false) {
 		$this->assignN2nLocales(array($n2nLocale), $prepend);
@@ -101,12 +106,17 @@ class DynamicTextCollection {
 		return trim((string) $module, '\\') . '\\' . self::LANG_NS_EXT;	
 	}
 	/**
-	 * @param mixed $module
+	 * @param Module|string $module
+	 * @param bool
 	 */
 	public function assignModule($module, bool $prepend = false) {
 		$this->addLangNamespace($this->buildModuleLangNs($module), $prepend);
 	}
 	
+	/**
+	 * @param string $langNamespace
+	 * @param bool $prepend
+	 */
 	public function addLangNamespace($langNamespace, bool $prepend = false) {
 		if (!$prepend) {
 			$this->langNamespaces[$langNamespace] = $langNamespace;
@@ -115,10 +125,17 @@ class DynamicTextCollection {
 		}
 	}
 	
+	/**
+	 * @param string|Module $module
+	 * @return bool
+	 */
 	public function containsModule($module) {
 		return isset($this->langNamespaces[$this->buildModuleLangNs($module)]);
 	}
 
+	/**
+	 * @return boolean
+	 */
 	public function isEmpty() {
 		foreach ($this->n2nLocaleIds as $n2nLocaleId) {
 			foreach ($this->langNamespaces as $langNamespace) {

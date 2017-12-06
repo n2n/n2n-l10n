@@ -21,10 +21,6 @@
  */
 namespace n2n\l10n;
 
-use n2n\l10n\PseudoL10nConfig;
-use n2n\l10n\L10nConfig;
-use n2n\core\N2N;
-
 class DateTimeFormat {
 	const STYLE_NONE = 'none';
 	const STYLE_SHORT = 'short';

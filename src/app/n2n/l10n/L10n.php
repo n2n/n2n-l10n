@@ -21,9 +21,6 @@
  */
 namespace n2n\l10n;
 
-use n2n\l10n\L10nConfig;
-use n2n\l10n\PseudoL10nConfig;
-
 class L10n {
 	private static $peclIntlEnabled = true;
 	private static $l10nConfig;
