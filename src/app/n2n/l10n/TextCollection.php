@@ -120,6 +120,7 @@ class TextCollection {
 		
 		return self::MATCH_QUALITY_NONE;
 	}
+	
 	/**
 	 * @param string $code
 	 * @param array $args
@@ -133,11 +134,23 @@ class TextCollection {
 			
 		}
 		
+		return self::fillArgs($text, $args);
+	}
+
+	/**
+	 * @param string $text
+	 * @param array|null $args
+	 * @return string
+	 */
+	public static function fillArgs(string $text, array $args = null): string {
 		foreach ((array) $args as $name => $value) {
 			$text = str_replace(self::ARG_PREFIX . $name . self::ARG_SUFFIX, $value, $text);
 		}
 		return $text;
 	}
+	
+	
+	
 	/**
 	 * @param string $langKey
 	 * @param array $args
