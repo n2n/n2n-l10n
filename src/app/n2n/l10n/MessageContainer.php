@@ -110,7 +110,7 @@ class MessageContainer implements ShutdownListener, ThreadScoped {
 	}
 	
 	public function addInfoCode($code, array $args = null, $groupName = null, $module = null) {
-		$this->add(new MessageCode($code, $args, Message::SEVERITY_INFO), $groupName, $module);
+		$this->add(new MessageCode($code, $args, Message::SEVERITY_INFO, $module), $groupName);
 	}
 	
 	public function addWarn($text, $groupName = null) {
@@ -118,7 +118,7 @@ class MessageContainer implements ShutdownListener, ThreadScoped {
 	}
 	
 	public function addWarnCode($code, array $args = null, $groupName = null, $module = null) {
-		$this->add(new MessageCode($code, $args, Message::SEVERITY_WARN), $groupName, $module);
+		$this->add(new MessageCode($code, $args, Message::SEVERITY_WARN, $module), $groupName);
 	}
 	
 	public function addError($text, $groupName = null) {
@@ -126,6 +126,6 @@ class MessageContainer implements ShutdownListener, ThreadScoped {
 	}
 	
 	public function addErrorCode($code, array $args = null, $groupName = null, $module = null) {
-		$this->add(new MessageCode($code, $args, Message::SEVERITY_ERROR), $groupName, $module);
+		$this->add(new MessageCode($code, $args, Message::SEVERITY_ERROR, $module), $groupName);
 	}
 }
