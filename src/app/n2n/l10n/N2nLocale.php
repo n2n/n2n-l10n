@@ -286,6 +286,9 @@ class N2nLocale implements UrlableElement {
 	 */
 	public static function create($expression): N2nLocale {
 		if ($expression instanceof N2nLocale) return $expression;
+		
+		ArgUtils::valType($expression, ['string', N2nLocale::class]);
+		
 		return new N2nLocale($expression);
 	}
 	
