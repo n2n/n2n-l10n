@@ -99,13 +99,45 @@ class L10nUtils {
 		return $dateFormatter->parse($expression);
 	}
 	
-	public static function formatDateTime(\DateTime $dateTime, $n2nLocale, $dateStyle = null, 
-			$timeStyle = null, \DateTimeZone $timeZone = null) {
+	/**
+	 * @param \DateTime $dateTime
+	 * @param N2nLocale $n2nLocale
+	 * @param string $dateStyle
+	 * @param string $timeStyle
+	 * @param \DateTimeZone $timeZone
+	 * @return string
+	 */
+	public static function formatDateTime(\DateTime $dateTime, N2nLocale $n2nLocale, string $dateStyle = null, 
+			string $timeStyle = null, \DateTimeZone $timeZone = null) {
 		if ($dateStyle === null) $dateStyle = self::determineDateStyle($n2nLocale, false);
 		if ($timeStyle === null) $timeStyle = self::determineTimeStyle($n2nLocale, false);
 		
 		$dateFormat = DateTimeFormat::createDateTimeInstance($n2nLocale, $dateStyle, $timeStyle, $timeZone);
 		return $dateFormat->format($dateTime);
+	}
+	
+	/**
+	 * @param \DateTime $dateTime
+	 * @param N2nLocale $n2nLocale
+	 * @param string $dateStyle
+	 * @param \DateTimeZone $timeZone
+	 * @return string
+	 */
+	public static function formatDate(\DateTime $dateTime, N2nLocale $n2nLocale, string $dateStyle = null,
+			\DateTimeZone $timeZone = null) {
+		return self::formatDateTime($dateTime, $n2nLocale, $dateStyle, DateTimeFormat::STYLE_NONE, $timeZone);
+	}
+	
+	/**
+	 * @param \DateTime $dateTime
+	 * @param N2nLocale $n2nLocale
+	 * @param string $timeStyle
+	 * @param \DateTimeZone $timeZone
+	 * @return string
+	 */
+	public static function formatTime(\DateTime $dateTime, N2nLocale $n2nLocale, string $timeStyle = null, 
+			\DateTimeZone $timeZone = null) {
+		return self::formatDateTime($dateTime, $n2nLocale, DateTimeFormat::STYLE_NONE, $timeStyle, $timeZone);
 	}
 	
 	/**
