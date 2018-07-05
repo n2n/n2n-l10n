@@ -128,4 +128,16 @@ class MessageContainer implements ShutdownListener, ThreadScoped {
 	public function addErrorCode($code, array $args = null, $groupName = null, $module = null) {
 		$this->add(new MessageCode($code, $args, Message::SEVERITY_ERROR, $module), $groupName);
 	}
+	
+	/**
+	 * @param string|null $groupName
+	 */
+	public function clear(string $groupName = null) {
+		if ($groupName === null) {
+			$this->messages = array();
+			return;
+		}
+		
+		unset($this->messages[$groupName]);
+	}
 }
