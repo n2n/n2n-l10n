@@ -23,6 +23,7 @@ namespace n2n\l10n;
 
 use n2n\reflection\ArgUtils;
 use n2n\core\module\Module;
+use n2n\util\StringUtils;
 
 class DynamicTextCollection {
 	const LANG_NS_EXT = 'lang';
@@ -117,7 +118,7 @@ class DynamicTextCollection {
 	 * @param string $langNamespace
 	 * @param bool $prepend
 	 */
-	public function addLangNamespace($langNamespace, bool $prepend = false) {
+	public function addLangNamespace(string $langNamespace, bool $prepend = false) {
 		if (!$prepend) {
 			$this->langNamespaces[$langNamespace] = $langNamespace;
 		} else {
@@ -156,22 +157,22 @@ class DynamicTextCollection {
 	 * @param int $num
 	 * @param array $replacements
 	 * @param bool $fallbackToCode
-	 * @return string
+	 * @return string|null
 	 */
 	public function t(string $code, array $args = null, int $num = null, array $replacements = null, 
-			bool $fallbackToCode = true) {
-		return $this->translate($code, $args, $num, $replacements, $fallbackToCode);
+			bool $fallbackToPrettyCode = true) {
+		return $this->translate($code, $args, $num, $replacements, $fallbackToPrettyCode);
 	}
 	
 	/**
 	 * @param string $code
 	 * @param array $args
 	 * @param int $num
-	 * @param boolean $fallbackToCode
-	 * @return string
+	 * @param boolean $fallbackToPrettyCode
+	 * @return string|null
 	 */
 	public function translate(string $code, array $args = null, int $num = null, array $replacements = null, 
-			bool $fallbackToCode = true) {
+			bool $fallbackToPrettyCode = true) {
 		foreach ($this->n2nLocaleIds as $n2nLocaleId) {
 			$text = $this->translateForN2nLocale($n2nLocaleId, $code, (array) $args, $num);
 			if ($text !== null) {
@@ -179,8 +180,8 @@ class DynamicTextCollection {
 			}
 		}
 		
-		if ($fallbackToCode) {
-			return TextCollection::implode($code, (array) $args);
+		if ($fallbackToPrettyCode) {
+			return StringUtils::pretty(TextCollection::implode($code, (array) $args));
 		}
 		
 		return null;
