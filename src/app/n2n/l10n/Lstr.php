@@ -21,34 +21,63 @@
  */
 namespace n2n\l10n;
 
-class Lstr {
-	protected $textOrCode;
-	protected $moduleNamespace;
-	protected $args = null;
-	protected $num = null;
-	protected $fallbackToCode = true;
+use n2n\l10n\impl\StaticLstr;
+use n2n\l10n\impl\TextCodeLstr;
+
+/**
+ * @author andreas
+ *
+ */
+abstract class Lstr {
 	
-	public function __construct(string $textOrCode, string $moduleNamespace = null) {
-		$this->textOrCode = $textOrCode;
-		$this->moduleNamespace = $moduleNamespace;
-	}
+	/**
+	 * @param N2nLocale $n2nLocale
+	 * @return string
+	 */
+	abstract function t(N2nLocale $n2nLocale): string;
 	
-	public function t(N2nLocale $n2nLocale) {
-		if ($this->moduleNamespace === null) {
-			return $this->textOrCode;
-		}
-		
-		$dtc = new DynamicTextCollection($this->moduleNamespace, $n2nLocale);
-		return $dtc->translate($this->textOrCode, $this->args, $this->num, null, $this->fallbackToCode);
-	}
+	/**
+	 * @return string
+	 */
+	abstract function __toString(): string;
 	
-	public function __toString() {
-		return $this->textOrCode;
-	}
-	
-	public static function create($arg): Lstr {
+	/**
+	 * @param string|Lstr $arg
+	 * @return Lstr
+	 */
+	static function create($arg): Lstr {
 		if ($arg instanceof Lstr) return $arg;
 		
-		return new Lstr((string) $arg);
+		return new StaticLstr((string) $arg);
+	}
+
+	/**
+	 * @param string $code
+	 * @param string ...$moduleNamespaces
+	 * @return \n2n\l10n\impl\TextCodeLstr
+	 */
+	static function createCode(string $code, string ...$moduleNamespaces) {
+		return new TextCodeLstr($code, null, null, $moduleNamespaces);
+	}
+
+	/**
+	 * @param string $code
+	 * @param array $args
+	 * @param string ...$moduleNamespaces
+	 * @return \n2n\l10n\impl\TextCodeLstr
+	 */
+	static function createCodeArg(string $code, array $args, string ...$moduleNamespaces) {
+		return new TextCodeLstr($code, $args, null, $moduleNamespaces);
+	}
+
+	/**
+	 * @param string $code
+	 * @param array $args
+	 * @param int $num
+	 * @param string ...$moduleNamespaces
+	 * @return \n2n\l10n\impl\TextCodeLstr
+	 */
+	static function createCodeArgNum(string $code, array $args, int $num, string ...$moduleNamespaces) {
+		return new TextCodeLstr($code, $args, $num, $moduleNamespaces);
 	}
 }

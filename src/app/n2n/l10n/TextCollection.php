@@ -157,6 +157,9 @@ class TextCollection {
 	 * @return string
 	 */
 	public static function implode($langKey, array $args = null) {
+		// replace suffix like _txt, _label, _tooltip...
+		$langKey = preg_replace('/_[^_]*$/', '', $langKey);
+		
 		$args = (array) $args;
 		if (!sizeof($args)) return $langKey;
 	
