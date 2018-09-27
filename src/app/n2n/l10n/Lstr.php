@@ -23,6 +23,7 @@ namespace n2n\l10n;
 
 use n2n\l10n\impl\StaticLstr;
 use n2n\l10n\impl\TextCodeLstr;
+use n2n\l10n\impl\TextCodeDtcLstr;
 
 abstract class Lstr {
 	
@@ -55,6 +56,10 @@ abstract class Lstr {
 	static function createCode(string $code, string ...$moduleNamespaces) {
 		return new TextCodeLstr($code, null, null, $moduleNamespaces);
 	}
+	
+	static function createCodeDtc(string $code, DynamicTextCollection $dtc) {
+		return new TextCodeDtcLstr($code, null, null, $dtc);
+	}
 
 	/**
 	 * @param string $code
@@ -65,7 +70,7 @@ abstract class Lstr {
 	static function createCodeArg(string $code, array $args, string ...$moduleNamespaces) {
 		return new TextCodeLstr($code, $args, null, $moduleNamespaces);
 	}
-
+	
 	/**
 	 * @param string $code
 	 * @param array $args

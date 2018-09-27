@@ -33,6 +33,7 @@ class DynamicTextCollection {
 	
 	private $n2nLocaleIds = array();
 	private $langNamespaces = array();
+	
 	/**
 	 * @param Module|Module[]|string|string[] $modules
 	 * @param N2nLocale|N2nLocale[]|string|string[] $n2nLocales
@@ -66,6 +67,7 @@ class DynamicTextCollection {
 	
 	/**
 	 * @param N2nLocale[]|string[] $n2nLocales
+	 * @return DynamicTextCollection
 	 */
 	public function assignN2nLocales(array $n2nLocales, bool $prepend = false) {
 		$newN2nLocaleIds = $this->buildN2nLocaleIdArr($n2nLocales);
@@ -75,14 +77,18 @@ class DynamicTextCollection {
 		} else {
 			$this->n2nLocaleIds += $newN2nLocaleIds;
 		}
+		
+		return $this;
 	}
 	
 	/**
 	 * @param N2nLocale|string $n2nLocale
 	 * @param bool $prepend
+	 * @return DynamicTextCollection
 	 */
 	public function assignN2nLocale($n2nLocale, bool $prepend = false) {
 		$this->assignN2nLocales(array($n2nLocale), $prepend);
+		return $this;
 	}
 	
 	private function buildN2nLocaleIdArr(array $n2nLocales) {
@@ -109,14 +115,17 @@ class DynamicTextCollection {
 	/**
 	 * @param Module|string $module
 	 * @param bool
+	 * @return DynamicTextCollection
 	 */
 	public function assignModule($module, bool $prepend = false) {
 		$this->addLangNamespace($this->buildModuleLangNs($module), $prepend);
+		return $this;
 	}
 	
 	/**
 	 * @param string $langNamespace
 	 * @param bool $prepend
+	 * @return DynamicTextCollection
 	 */
 	public function addLangNamespace(string $langNamespace, bool $prepend = false) {
 		if (!$prepend) {
@@ -124,6 +133,7 @@ class DynamicTextCollection {
 		} else {
 			$this->langNamespaces = array($langNamespace => $langNamespace) + $this->langNamespaces;
 		}
+		return $this;
 	}
 	
 	/**
@@ -160,8 +170,13 @@ class DynamicTextCollection {
 	 * @return string|null
 	 */
 	public function t(string $code, array $args = null, int $num = null, array $replacements = null, 
+			bool $fallbackToPrettyCode = true, N2nLocale ...$n2nLocales) {
+		return $this->translate($code, $args, $num, $replacements, $fallbackToPrettyCode, ...$n2nLocales);
+	}
+	
+	public function lt($n2nLocale, string $code, array $args = null, int $num = null, array $replacements = null,
 			bool $fallbackToPrettyCode = true) {
-		return $this->translate($code, $args, $num, $replacements, $fallbackToPrettyCode);
+		return $this->translate($code, $args, $num, $replacements, $fallbackToPrettyCode, N2nLocale::create($n2nLocale));
 	}
 	
 	/**
@@ -172,16 +187,24 @@ class DynamicTextCollection {
 	 * @return string|null
 	 */
 	public function translate(string $code, array $args = null, int $num = null, array $replacements = null, 
-			bool $fallbackToPrettyCode = true) {
-		foreach ($this->n2nLocaleIds as $n2nLocaleId) {
-			$text = $this->translateForN2nLocale($n2nLocaleId, $code, (array) $args, $num);
-			if ($text !== null) {
-				return $this->replace($text, $replacements);
+			bool $fallbackToPrettyCode = true, N2nLocale ...$n2nLocales) {
+		foreach ($n2nLocales as $n2nLocale) {
+			$text = $this->translateForN2nLocale((string) $n2nLocale, $code, (array) $args, $num, $replacements);
+			
+			if ($text === null && null !== $n2nLocale->getRegionId()) {
+				$text = $this->translateForN2nLocale($n2nLocale->getLanguageId(), $code, (array) $args, $num, $replacements);
 			}
+			
+			if ($text !== null) return $text;
+		}		
+				
+		foreach ($this->n2nLocaleIds as $n2nLocaleId) {
+			$text = $this->translateForN2nLocale($n2nLocaleId, $code, $args, $num, $replacements);
+			if ($text !== null) return $text;
 		}
 		
 		if ($fallbackToPrettyCode) {
-			return StringUtils::pretty(TextCollection::implode($code, (array) $args));
+			return StringUtils::pretty(TextCollection::implode($code, $args));
 		}
 		
 		return null;
@@ -196,12 +219,12 @@ class DynamicTextCollection {
 		return $text;
 	}
 	
-	private function translateForN2nLocale($n2nLocaleId, $code, array $args, $num) {
+	private function translateForN2nLocale($n2nLocaleId, $code, $args, $num, $replacements) {
 		foreach ($this->langNamespaces as $langNamespace) {
 			$tc = TextCollectionLoader::loadIfExists($langNamespace . '\\' . $n2nLocaleId);
 
 			if ($tc !== null && null !== ($text = $tc->translate($code, $args, $num, false))) {
-				return $text;
+				return $this->replace($text, $replacements);
 			}
 		}
 		
