@@ -24,10 +24,6 @@ namespace n2n\l10n;
 use n2n\l10n\impl\StaticLstr;
 use n2n\l10n\impl\TextCodeLstr;
 
-/**
- * @author andreas
- *
- */
 abstract class Lstr {
 	
 	/**
