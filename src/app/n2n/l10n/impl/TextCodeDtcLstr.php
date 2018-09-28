@@ -19,7 +19,40 @@
  * Bert Hofmänner.......: Idea, Frontend UI, Community Leader, Marketing
  * Thomas Günther.......: Developer, Hangar
  */
-namespace n2n\l10n;
+namespace n2n\l10n\impl;
 
-class GettextLstr extends Lstr {
+use n2n\l10n\Lstr;
+use n2n\l10n\DynamicTextCollection;
+use n2n\l10n\N2nLocale;
+
+class TextCodeDtcLstr extends Lstr {
+	private $code;
+	private $args;
+	private $num;
+	private $dtc;
+	
+	/**
+	 * @param string $code
+	 * @param array|null $args
+	 * @param int|null $num
+	 * @param string[] $moduleNamespaces
+	 */
+	function __construct(string $code, ?array $args, ?int $num, DynamicTextCollection $dtc) {
+		$this->code = $code;
+		$this->args = $args;
+		$this->num = $num;
+		$this->dtc = $dtc;
+	}
+	
+	function t(N2nLocale $n2nLocale): string {
+		return $this->dtc->lt($n2nLocale, $this->code, $this->args, $this->num);
+	}
+	
+	function __toString(): string {
+		try {
+			return $this->t(N2nLocale::getDefault());
+		} catch (\Throwable $e) {
+			return $e->getMessage();
+		}
+	}
 }
