@@ -170,8 +170,8 @@ class DynamicTextCollection {
 	 * @return string|null
 	 */
 	public function t(string $code, array $args = null, int $num = null, array $replacements = null, 
-			bool $fallbackToPrettyCode = true, N2nLocale ...$n2nLocales) {
-		return $this->translate($code, $args, $num, $replacements, $fallbackToPrettyCode, ...$n2nLocales);
+			bool $fallbackToPrettyCode = true) {
+		return $this->translate($code, $args, $num, $replacements, $fallbackToPrettyCode);
 	}
 	
 	public function lt($n2nLocale, string $code, array $args = null, int $num = null, array $replacements = null,
