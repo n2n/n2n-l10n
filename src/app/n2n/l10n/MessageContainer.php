@@ -60,6 +60,7 @@ class MessageContainer implements ShutdownListener, ThreadScoped {
 		if (!($this->response->getSentPayload() instanceof Redirect)) return;
 		$this->httpContext->getSession()->set(N2N::NS, self::SESSION_KEY, serialize($this->messages));
 	}
+	
 	/**
 	 * adds a Messsage object 
 	 *  
@@ -73,6 +74,7 @@ class MessageContainer implements ShutdownListener, ThreadScoped {
 		
 		$this->messages[$groupName][] = $message;
 	}
+	
 	/**
 	 * Adds a collection of message objects.
 	 * 
@@ -105,28 +107,28 @@ class MessageContainer implements ShutdownListener, ThreadScoped {
 		return $messages;
 	}
 	
-	public function addInfo($text, $groupName = null) {
-		$this->add(new Message($text, Message::SEVERITY_INFO), $groupName);
+	public function addInfo($text, string $groupName = null) {
+		$this->add(Message::create($text, Message::SEVERITY_INFO), $groupName);
 	}
 	
-	public function addInfoCode($code, array $args = null, $groupName = null, $module = null) {
-		$this->add(new MessageCode($code, $args, Message::SEVERITY_INFO, $module), $groupName);
+	public function addInfoCode($code, array $args = null, string $groupName = null, $module = null) {
+		$this->add(Message::createCodeArg($code, $args, Message::SEVERITY_INFO, $module), $groupName);
 	}
 	
-	public function addWarn($text, $groupName = null) {
-		$this->add(new Message($text, Message::SEVERITY_WARN), $groupName);
+	public function addWarn($text, string $groupName = null) {
+		$this->add(Message::create($text, Message::SEVERITY_WARN), $groupName);
 	}
 	
-	public function addWarnCode($code, array $args = null, $groupName = null, $module = null) {
-		$this->add(new MessageCode($code, $args, Message::SEVERITY_WARN, $module), $groupName);
+	public function addWarnCode($code, array $args = null, string $groupName = null, $module = null) {
+		$this->add(Message::createCodeArg($code, $args, Message::SEVERITY_WARN, $module), $groupName);
 	}
 	
-	public function addError($text, $groupName = null) {
-		$this->add(new Message($text, Message::SEVERITY_ERROR), $groupName);
+	public function addError($text, string $groupName = null) {
+		$this->add(Message::create($text, Message::SEVERITY_ERROR), $groupName);
 	}
 	
-	public function addErrorCode($code, array $args = null, $groupName = null, $module = null) {
-		$this->add(new MessageCode($code, $args, Message::SEVERITY_ERROR, $module), $groupName);
+	public function addErrorCode($code, array $args = null, string $groupName = null, $module = null) {
+		$this->add(Message::createCodeArg($code, (array) $args, Message::SEVERITY_ERROR, $module), $groupName);
 	}
 	
 	/**

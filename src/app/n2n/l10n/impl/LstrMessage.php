@@ -19,31 +19,43 @@
  * Bert Hofmänner.......: Idea, Frontend UI, Community Leader, Marketing
  * Thomas Günther.......: Developer, Hangar
  */
-namespace n2n\l10n;
+namespace n2n\l10n\impl;
 
-// class MessageTranslator {
-// 	private $dtc;
+use n2n\l10n\Message;
+use n2n\l10n\DynamicTextCollection;
+use n2n\l10n\N2nLocale;
+use n2n\l10n\Lstr;
+
+class LstrMessage extends Message {
+	private $lstr;
 	
-// 	public function __construct($modules, $n2nLocales, bool $includeFallbackN2nLocale = true) {
-// 		$this->dtc = new DynamicTextCollection($modules, $n2nLocales, $includeFallbackN2nLocale);
-// 	}
+	public function __construct(Lstr $lstr, int $severity = null) {
+		parent::__construct($severity);
+		
+		$this->lstr = $lstr;
+	}
 	
-// 	public function translate(Message $message) {
-// 		if (!($message instanceof MessageCode)) {
-// 			return $message;
-// 		}
-		
-// 		$text = L10nUtils::translateModuleTextCode($this->dtc, $message->getModuleNamespace(), 
-// 				$message->getTextCode(), $message->getArgs(), $message->getNum());
-		
-// 		return new Message($text, $message->getSeverity());
-// 	}
+	public function setLstr(Lstr $lstr) {
+		$this->lstr = $lstr;
+		return $this;
+	}
 	
-// 	public function translateAll(array $messages) {
-// 		foreach ($messages as $key => $message) {
-// 			$messages[$key] = $this->translate($message);
-// 		}
+	/**
+	 * @return \n2n\l10n\Lstr
+	 */
+	public function getLstr() {
+		return $this->lstr;
+	}
+	
+	public function t(N2nLocale $n2nLocale, string $moduleNamespace = null): string {
+		return $this->lstr->t($n2nLocale);
+	}
 		
-// 		return $messages;
-// 	}
-// }
+	public function tByDtc(DynamicTextCollection $dtc, N2nLocale $n2nLocale, string $moduleNamespace = null): string {
+		return $this->t($n2nLocale, $moduleNamespace);
+	}
+	
+	public function __toString(): string {
+		return $this->lstr->__toString();
+	}
+}
