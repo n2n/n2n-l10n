@@ -128,7 +128,7 @@ class MessageContainer implements ShutdownListener, ThreadScoped {
 	}
 	
 	public function addErrorCode($code, array $args = null, string $groupName = null, $module = null) {
-		$this->add(Message::createCodeArg($code, (array) $args, Message::SEVERITY_ERROR, $module), $groupName);
+		$this->add(Message::createCodeArg($code, $args, Message::SEVERITY_ERROR, $module), $groupName);
 	}
 	
 	/**
