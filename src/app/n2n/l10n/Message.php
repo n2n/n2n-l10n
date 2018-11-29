@@ -133,7 +133,7 @@ abstract class Message {
 	 * @param int $num
 	 * @return \n2n\l10n\impl\TextCodeMessage
 	 */
-	public static function createCodeArg(string $code, array $args, int $severity = null, string $moduleNamespace = null, int $num = null) {
+	public static function createCodeArg(string $code, array $args = null, int $severity = null, string $moduleNamespace = null, int $num = null) {
 		return new TextCodeMessage($code, $args, $severity, $moduleNamespace, $num);
 	}
 }
