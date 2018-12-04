@@ -19,31 +19,42 @@
  * Bert Hofmänner.......: Idea, Frontend UI, Community Leader, Marketing
  * Thomas Günther.......: Developer, Hangar
  */
-namespace n2n\l10n;
+namespace n2n\l10n\impl;
 
-// class MessageTranslator {
-// 	private $dtc;
+use n2n\l10n\Message;
+use n2n\l10n\N2nLocale;
+use n2n\l10n\DynamicTextCollection;
+
+class StaticMessage extends Message {
+	private $text;
 	
-// 	public function __construct($modules, $n2nLocales, bool $includeFallbackN2nLocale = true) {
-// 		$this->dtc = new DynamicTextCollection($modules, $n2nLocales, $includeFallbackN2nLocale);
-// 	}
+	public function __construct(string $text, int $severity = null) {
+		parent::__construct($severity);
+		
+		$this->text = $text;
+	}
 	
-// 	public function translate(Message $message) {
-// 		if (!($message instanceof MessageCode)) {
-// 			return $message;
-// 		}
-		
-// 		$text = L10nUtils::translateModuleTextCode($this->dtc, $message->getModuleNamespace(), 
-// 				$message->getTextCode(), $message->getArgs(), $message->getNum());
-		
-// 		return new Message($text, $message->getSeverity());
-// 	}
+	public function setText(string $text) {
+		$this->text = $lstr;
+		return $this;
+	}
 	
-// 	public function translateAll(array $messages) {
-// 		foreach ($messages as $key => $message) {
-// 			$messages[$key] = $this->translate($message);
-// 		}
+	/**
+	 * @return string
+	 */
+	public function getText() {
+		return $this->text;
+	}
+	
+	public function t(N2nLocale $n2nLocale, string $moduleNamespace = null): string {
+		return $this->text;
+	}
 		
-// 		return $messages;
-// 	}
-// }
+	public function tByDtc(DynamicTextCollection $dtc, N2nLocale $n2nLocale, string $moduleNamespace = null): string {
+		return $this->text;
+	}
+	
+	public function __toString(): string {
+		return $this->text;
+	}
+}

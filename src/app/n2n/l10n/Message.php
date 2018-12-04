@@ -21,47 +21,119 @@
  */
 namespace n2n\l10n;
 
-class Message {
+use n2n\util\StringUtils;
+use n2n\l10n\impl\LstrMessage;
+use n2n\l10n\impl\StaticMessage;
+use n2n\l10n\impl\TextCodeMessage;
+
+abstract class Message {
 	const SEVERITY_SUCCESS = 1;
 	const SEVERITY_INFO = 2;
 	const SEVERITY_WARN = 4;
 	const SEVERITY_ERROR = 8;
 	const ALL_SEVERITIES = 15;
 	
-	private $text;
 	private $severity;
 	private $processed = false;
 	
-	public function __construct($text, $severity = null) {
-		if (is_null($severity)) $severity = self::SEVERITY_ERROR;
-		
-		$this->text = $text;
-		$this->severity = $severity;
+	/**
+	 * @param int $severity
+	 */
+	protected function __construct($severity = null) {
+		$this->severity = $severity ?? self::SEVERITY_ERROR;;
 	}
 	
+	/**
+	 * @return int
+	 */
 	public function getSeverity() {
 		return $this->severity;
 	}
 	
-	public function setSeverity($severity) {
+	/**
+	 * @param int $severity
+	 * @return \n2n\l10n\Message
+	 */
+	public function setSeverity(?int $severity) {
 		$this->severity = $severity;
+		return $this;
 	} 
 	
+	/**
+	 * @return bool
+	 */
 	public function isProcessed(): bool {
 		return $this->processed;
 	}
 	
+	/**
+	 * @param bool $processed
+	 * @return \n2n\l10n\Message
+	 */
 	public function setProcessed(bool $processed) {
 		$this->processed = $processed;
+		return $this;
 	}
 	
-	public function __toString(): string {
-		return $this->text;
-	}
 	
-	public static function createFromExpression($messageExpression) {
-		if ($messageExpression instanceof Message) return $messageExpression;
+	/**
+	 * @param N2nLocale $n2nLocale
+	 * @param string $moduleNamespace
+	 * @return string
+	 */
+	public abstract function t(N2nLocale $n2nLocale, string $moduleNamespace = null): string;
+	
+	/**
+	 * @param DynamicTextCollection $dtc
+	 * @param N2nLocale $n2nLocale
+	 * @param string $moduleNamespace
+	 * @return string
+	 */
+	public abstract function tByDtc(DynamicTextCollection $dtc): string;
+	
+	/**
+	 * @return string
+	 */
+	public abstract function __toString(): string;
+	
+	/**
+	 * @param string|Lstr|Message $arg
+	 * @param int $severity
+	 * @return \n2n\l10n\Message|\n2n\l10n\impl\LstrMessage|\n2n\l10n\impl\StaticMessage
+	 */
+	public static function create($arg, int $severity = null) {
+		if ($arg instanceof Message) {
+			return $arg;
+		}
 		
-		return new Message((string) $messageExpression);
+		if ($arg instanceof Lstr) {
+			return new LstrMessage($arg);
+		}
+		
+		return new StaticMessage(StringUtils::strOf($arg));
+	}
+	
+	
+	/**
+	 * @param string $code
+	 * @param int $severity
+	 * @param string $moduleNamespace
+	 * @param int $num
+	 * @return \n2n\l10n\impl\TextCodeMessage
+	 */
+	public static function createCode(string $code, int $severity = null, string $moduleNamespace = null, int $num = null) {
+		return new TextCodeMessage($code, null, $severity, $moduleNamespace, $num);
+	}
+	
+	/**
+	 * @param string $code
+	 * @param array $args
+	 * @param int $severity
+	 * @param string $moduleNamespace
+	 * @param int $num
+	 * @return \n2n\l10n\impl\TextCodeMessage
+	 */
+	public static function createCodeArg(string $code, array $args = null, int $severity = null, string $moduleNamespace = null, int $num = null) {
+		return new TextCodeMessage($code, $args, $severity, $moduleNamespace, $num);
 	}
 }

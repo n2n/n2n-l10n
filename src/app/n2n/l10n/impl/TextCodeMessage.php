@@ -19,27 +19,33 @@
  * Bert Hofmänner.......: Idea, Frontend UI, Community Leader, Marketing
  * Thomas Günther.......: Developer, Hangar
  */
-namespace n2n\l10n;
+namespace n2n\l10n\impl;
 
-class MessageCode extends Message {
+use n2n\util\StringUtils;
+use n2n\l10n\Message;
+use n2n\l10n\N2nLocale;
+use n2n\l10n\DynamicTextCollection;
+use n2n\l10n\L10nUtils;
+use n2n\l10n\TextCollection;
+
+class TextCodeMessage extends Message {
 	private $textCode;
 	private $args;
 	private $num;
 	private $moduleNamespace;
 	
-	public function __construct($textCode, array $args = null, $severity = null, $moduleNamespace = null, $num = null) {
-		parent::__construct($textCode . ' [' . implode(', ', (array) $args) . ']', $severity);
+	public function __construct(string $textCode, array $args = null, int $severity = null, string $moduleNamespace = null, int $num = null) {
+		parent::__construct($severity);
 		
-		$this->textCode = (string) $textCode;
-		$this->args = (array) $args;
+		$this->textCode = $textCode;
+		$this->args = $args;
 		$this->num = $num;
-		if ($moduleNamespace !== null) {
-			$this->moduleNamespace = (string) $moduleNamespace;
-		}
+		$this->moduleNamespace = $moduleNamespace;
 	}
 	
-	public function setTextCode($textCode) {
+	public function setTextCode(string $textCode) {
 		$this->textCode = $textCode;
+		return $this;
 	}
 	
 	public function getTextCode() {
@@ -52,21 +58,37 @@ class MessageCode extends Message {
 	
 	public function setArgs(array $args) {
 		$this->args = $args;
+		return $this;
 	}
 	
 	public function getNum() {
 		return $this->num;
 	}
 	
-	public function setNum($num) {
+	public function setNum(?int $num) {
 		$this->num = $num;
+		return $this;
 	}
 	
-	public function setModuleNamespace($moduleNamespace) {
+	public function setModuleNamespace(?string $moduleNamespace) {
 		$this->moduleNamespace = $moduleNamespace;
+		return $this;
 	}
 	
 	public function getModuleNamespace() {
 		return $this->moduleNamespace;
+	}
+	
+	public function t(N2nLocale $n2nLocale, string $moduleNamespace = null): string {
+		$dtc = new DynamicTextCollection($this->moduleNamspaces, $n2nLocale);
+		return $this->tByDtc($dtc, $n2nLocale, $moduleNamespace);
+	}
+		
+	public function tByDtc(DynamicTextCollection $dtc): string {
+		return L10nUtils::translateModuleTextCode($dtc, $this->moduleNamespace, $this->textCode, $this->args, $this->num);
+	}
+	
+	public function __toString(): string {
+		return StringUtils::pretty(TextCollection::implode($this->textCode, $this->args));
 	}
 }
