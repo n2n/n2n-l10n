@@ -50,7 +50,7 @@ class StaticMessage extends Message {
 		return $this->text;
 	}
 		
-	public function tByDtc(DynamicTextCollection $dtc, N2nLocale $n2nLocale, string $moduleNamespace = null): string {
+	public function tByDtc(DynamicTextCollection $dtc): string {
 		return $this->text;
 	}
 	
