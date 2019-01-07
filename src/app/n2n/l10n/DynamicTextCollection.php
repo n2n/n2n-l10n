@@ -21,7 +21,7 @@
  */
 namespace n2n\l10n;
 
-use n2n\reflection\ArgUtils;
+use n2n\util\type\ArgUtils;
 use n2n\core\module\Module;
 use n2n\util\StringUtils;
 
