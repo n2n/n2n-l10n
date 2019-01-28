@@ -38,7 +38,7 @@ class TextCodeMessage extends Message {
 		parent::__construct($severity);
 		
 		$this->textCode = $textCode;
-		$this->args = $args;
+		$this->args = (array) $args;
 		$this->num = $num;
 		$this->moduleNamespace = $moduleNamespace;
 	}
