@@ -80,7 +80,7 @@ class TextCodeMessage extends Message {
 	}
 	
 	public function t(N2nLocale $n2nLocale, string $moduleNamespace = null): string {
-		$dtc = new DynamicTextCollection($this->moduleNamspaces, $n2nLocale);
+		$dtc = new DynamicTextCollection($this->moduleNamespace, $n2nLocale);
 		return $this->tByDtc($dtc, $n2nLocale, $moduleNamespace);
 	}
 		
