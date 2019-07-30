@@ -40,7 +40,7 @@ abstract class Message {
 	 * @param int $severity
 	 */
 	protected function __construct($severity = null) {
-		$this->severity = $severity ?? self::SEVERITY_ERROR;;
+		$this->severity = $severity ?? self::SEVERITY_ERROR;
 	}
 	
 	/**
