@@ -98,7 +98,7 @@ abstract class Message {
 	
 	/**
 	 * @param string|Lstr|Message $arg
-	 * @param int $severity
+	 * @param int|null $severity
 	 * @return \n2n\l10n\Message|\n2n\l10n\impl\LstrMessage|\n2n\l10n\impl\StaticMessage
 	 */
 	public static function create($arg, int $severity = null) {
@@ -107,10 +107,10 @@ abstract class Message {
 		}
 		
 		if ($arg instanceof Lstr) {
-			return new LstrMessage($arg);
+			return new LstrMessage($arg, $severity);
 		}
 		
-		return new StaticMessage(StringUtils::strOf($arg));
+		return new StaticMessage(StringUtils::strOf($arg), $severity);
 	}
 	
 	
