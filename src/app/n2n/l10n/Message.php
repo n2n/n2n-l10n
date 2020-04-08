@@ -113,6 +113,19 @@ abstract class Message {
 		return new StaticMessage(StringUtils::strOf($arg), $severity);
 	}
 	
+	/**
+	 * @param string|Lstr|Message|null $arg
+	 * @param int|null $severity
+	 * @return \n2n\l10n\Message|null
+	 */
+	public static function build($arg, int $severity = null) {
+		if ($arg === null) {
+			return null;
+		}
+		
+		return self::create($arg, $severity);
+	}
+	
 	
 	/**
 	 * @param string $code
