@@ -50,7 +50,7 @@ class DateTimeFormat {
 		return new DateTimeFormat($n2nLocale, $dateStyle, $timeStyle, $timeZone);
 	}
 	
-	private function __construct($n2nLocale, $dateStyle = null, $timeStyle = null, \DateTimeZone $timeZone) {
+	private function __construct($n2nLocale, $dateStyle = null, $timeStyle = null, \DateTimeZone $timeZone = null) {
 		$this->n2nLocaleId = (string) $n2nLocale;
 		$this->timeZone = $timeZone;
 		
