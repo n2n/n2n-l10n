@@ -172,4 +172,12 @@ class TextCollection {
 	
 		return $langKey . ' [' . $argStr . ']';
 	}
+
+	/**
+	 * @param string $name
+	 * @return string
+	 */
+	public static function createPlaceholder(string $name) {
+		return self::ARG_PREFIX . $name . self::ARG_SUFFIX;
+	}
 }
