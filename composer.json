@@ -18,6 +18,9 @@
 		"php" : ">=7.0",
 		"n2n/n2n-reflection" : "^7.2.33"
 	},
+	"require-dev" : {
+		"phpunit/phpunit" : "^9.5"
+	},
 	"autoload" : {
 		"psr-4" : {
 			"n2n\\l10n\\" : "src/app/n2n/l10n"
