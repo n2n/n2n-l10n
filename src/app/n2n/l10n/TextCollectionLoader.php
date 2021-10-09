@@ -22,7 +22,7 @@
 namespace n2n\l10n;
 
 use n2n\core\TypeLoader;
-use n2n\io\IoUtils;
+use n2n\util\io\IoUtils;
 use n2n\core\TypeNotFoundException;
 
 class TextCollectionLoader {
