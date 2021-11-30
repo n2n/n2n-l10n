@@ -13,7 +13,8 @@
 	"config" : {
 		"vendor-dir" : "src/vendor"
 	},
-	"authors" : [{
+	"authors" : [
+		{
 			"name" : "Andreas von Burg",
 			"email" : "a@von-burg.net",
 			"homepage" : "https://www.von-burg.net/"
@@ -21,7 +22,7 @@
 	],
 	"require" : {
 		"php" : ">=7.0",
-		"n2n/n2n-reflection" : "dev-develop"
+		"n2n/n2n-reflection" : "^7.3"
 	},
 	"autoload" : {
 		"psr-4" : {
