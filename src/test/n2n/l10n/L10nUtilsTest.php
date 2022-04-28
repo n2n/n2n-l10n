@@ -21,6 +21,7 @@ class L10nUtilsTest extends TestCase {
 	}
 
 	public function testFormatDateTimeInput() {
+		$this->markTestSkipped('N2N core not part of l10n');
 		$dateTimeImmutable = new \DateTimeImmutable('1.4.2022');
 		$dateTime = new \DateTime('1.4.2022');
 
@@ -29,6 +30,7 @@ class L10nUtilsTest extends TestCase {
 	}
 
 	public function testFormatDateTime() {
+		$this->markTestSkipped('N2N core not part of l10n');
 		$dateTimeImmutable = new \DateTimeImmutable('1.4.2022');
 		$dateTime = new \DateTime('1.4.2022');
 
