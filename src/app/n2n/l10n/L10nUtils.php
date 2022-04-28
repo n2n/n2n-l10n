@@ -67,7 +67,7 @@ class L10nUtils {
 		}
 	}
 
-	public static function formatDateTimeWithIcuPattern(\DateTime $dateTime, $n2nLocale, $icuPattern, 
+	public static function formatDateTimeWithIcuPattern(\DateTimeInterface $dateTime, $n2nLocale, $icuPattern,
 			\DateTimeZone $timeZone = null) {
 		$dateTimeFormatter = new SimpleDateTimeFormat($n2nLocale, $icuPattern, $timeZone);
 		return $dateTimeFormatter->format($dateTime);
@@ -80,7 +80,7 @@ class L10nUtils {
 		return $dateTimeFormatter->parse($expression);
 	}
 	
-	public static function formatDateTimeInput(\DateTime $dateTime, N2nLocale $n2nLocale, $dateStyle = null, 
+	public static function formatDateTimeInput(\DateTimeInterface $dateTime, N2nLocale $n2nLocale, $dateStyle = null,
 			$timeStyle = null, \DateTimeZone $timeZone = null) {
 		if ($dateStyle === null) $dateStyle = self::determineDateStyle($n2nLocale, true);
 		if ($timeStyle === null) $timeStyle = self::determineTimeStyle($n2nLocale, true);
@@ -100,14 +100,14 @@ class L10nUtils {
 	}
 	
 	/**
-	 * @param \DateTime $dateTime
+	 * @param \DateTimeInterface $dateTime
 	 * @param N2nLocale $n2nLocale
 	 * @param string $dateStyle
 	 * @param string $timeStyle
 	 * @param \DateTimeZone $timeZone
 	 * @return string
 	 */
-	public static function formatDateTime(\DateTime $dateTime, N2nLocale $n2nLocale, string $dateStyle = null, 
+	public static function formatDateTime(\DateTimeInterface $dateTime, N2nLocale $n2nLocale, string $dateStyle = null,
 			string $timeStyle = null, \DateTimeZone $timeZone = null) {
 		if ($dateStyle === null) $dateStyle = self::determineDateStyle($n2nLocale, false);
 		if ($timeStyle === null) $timeStyle = self::determineTimeStyle($n2nLocale, false);
@@ -117,25 +117,25 @@ class L10nUtils {
 	}
 	
 	/**
-	 * @param \DateTime $dateTime
+	 * @param \DateTimeInterface $dateTime
 	 * @param N2nLocale $n2nLocale
 	 * @param string $dateStyle
 	 * @param \DateTimeZone $timeZone
 	 * @return string
 	 */
-	public static function formatDate(\DateTime $dateTime, N2nLocale $n2nLocale, string $dateStyle = null,
+	public static function formatDate(\DateTimeInterface $dateTime, N2nLocale $n2nLocale, string $dateStyle = null,
 			\DateTimeZone $timeZone = null) {
 		return self::formatDateTime($dateTime, $n2nLocale, $dateStyle, DateTimeFormat::STYLE_NONE, $timeZone);
 	}
 	
 	/**
-	 * @param \DateTime $dateTime
+	 * @param \DateTimeInterface $dateTime
 	 * @param N2nLocale $n2nLocale
 	 * @param string $timeStyle
 	 * @param \DateTimeZone $timeZone
 	 * @return string
 	 */
-	public static function formatTime(\DateTime $dateTime, N2nLocale $n2nLocale, string $timeStyle = null, 
+	public static function formatTime(\DateTimeInterface $dateTime, N2nLocale $n2nLocale, string $timeStyle = null,
 			\DateTimeZone $timeZone = null) {
 		return self::formatDateTime($dateTime, $n2nLocale, DateTimeFormat::STYLE_NONE, $timeStyle, $timeZone);
 	}

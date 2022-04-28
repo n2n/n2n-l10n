@@ -178,7 +178,7 @@ class DateTimeFormat {
 		return $dt;
 	}
 	
-	public function format(\DateTime $dateTime) {
+	public function format(\DateTimeInterface $dateTime) {
 		if (isset($this->intlDateFormatter)) {
 			return $this->intlDateFormatter->format($dateTime->getTimestamp());
 		}

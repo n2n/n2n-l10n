@@ -69,7 +69,7 @@ class SimpleDateTimeFormat {
 		return $dt;
 	}
 	
-	public function format(\DateTime $dateTime) {
+	public function format(\DateTimeInterface $dateTime) {
 		return $this->formatter->format($dateTime);
 	}
 }
