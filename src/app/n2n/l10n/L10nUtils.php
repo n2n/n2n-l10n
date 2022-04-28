@@ -111,7 +111,7 @@ class L10nUtils {
 			string $timeStyle = null, \DateTimeZone $timeZone = null) {
 		if ($dateStyle === null) $dateStyle = self::determineDateStyle($n2nLocale, false);
 		if ($timeStyle === null) $timeStyle = self::determineTimeStyle($n2nLocale, false);
-		
+
 		$dateFormat = DateTimeFormat::createDateTimeInstance($n2nLocale, $dateStyle, $timeStyle, $timeZone);
 		return $dateFormat->format($dateTime);
 	}
