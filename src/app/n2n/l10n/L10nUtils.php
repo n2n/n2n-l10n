@@ -47,7 +47,11 @@ class L10nUtils {
 		return $dtc->translate($textCode, $args, $num, $replacements);
 	}
 	
-	public static function formatNumber($value, $n2nLocale, $style = \NumberFormatter::DECIMAL, $pattern = null) {
+	public static function formatNumber(int|float|null $value, $n2nLocale, $style = \NumberFormatter::DECIMAL, $pattern = null) {
+		if ($value === null) {
+			return null;
+		}
+
 		$nf = new \NumberFormatter((string) $n2nLocale, $style, $pattern);
 		return $nf->format($value);
 	}
