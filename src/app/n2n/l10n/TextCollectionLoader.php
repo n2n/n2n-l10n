@@ -67,7 +67,7 @@ class TextCollectionLoader {
 		
 		try {
 			return self::load($typeName);
-		} catch (\ReflectionException $e) {
+		} catch (TypeNotFoundException $e) {
 			self::$textCollections[$typeName] = null;
 		}
 	}
