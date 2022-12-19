@@ -146,7 +146,7 @@ class TextCollection {
 	 */
 	public static function fillArgs(string $text, array $args = null): string {
 		foreach ((array) $args as $name => $value) {
-			$text = str_replace(self::ARG_PREFIX . $name . self::ARG_SUFFIX, $value, $text);
+			$text = str_replace(self::ARG_PREFIX . $name . self::ARG_SUFFIX, $value ?? '', $text);
 		}
 		return $text;
 	}
