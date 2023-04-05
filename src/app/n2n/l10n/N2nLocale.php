@@ -242,7 +242,7 @@ class N2nLocale implements UrlableElement {
 		self::$adminN2nLocale = $adminN2nLocale;
 	}
 	
-	private static $webAliasN2nLocales;
+	private static $webAliasN2nLocales = [];
 	
 	/**
 	 * @return N2nLocale[]
