@@ -21,8 +21,7 @@
 		}
 	],
 	"require" : {
-		"php" : ">=7.0",
-		"n2n/n2n-util" : "^7.3"
+		"n2n/n2n-util": "~7.4"
 	},
 	"autoload" : {
 		"psr-4" : {

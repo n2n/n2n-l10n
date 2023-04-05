@@ -21,8 +21,6 @@
  */
 namespace n2n\l10n;
 
-use n2n\core\N2nRuntimeException;
-
-class L10nRuntimeException extends N2nRuntimeException {
+class L10nRuntimeException extends \RuntimeException {
 	
 }
