@@ -22,11 +22,10 @@
 namespace n2n\l10n;
 
 class L10nConfig extends L10nStylesManager {	
-	private $enabled;
+	const L10N_ENABLED_DEFAULT = true;
 
-	public function __construct(bool $enabled, array $l10nStyles) {
+	public function __construct(private bool $enabled = self::L10N_ENABLED_DEFAULT, array $l10nStyles = []) {
 		parent::__construct($l10nStyles);
-		$this->enabled = $enabled;
 	}
 	
 	public function isEnabled(): bool {
