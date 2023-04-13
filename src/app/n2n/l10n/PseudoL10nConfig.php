@@ -23,8 +23,8 @@ namespace n2n\l10n;
 
 class PseudoL10nConfig extends L10nStylesManager {
 	private $l10nFormats;
-	
-	public function __construct(array $l10nStyles, array $l10nFormats) {
+
+	public function __construct(array $l10nStyles = [], array $l10nFormats = []) {
 		parent::__construct($l10nStyles);
 		$this->l10nFormats = $l10nFormats;
 	}
