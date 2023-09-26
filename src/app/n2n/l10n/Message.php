@@ -101,7 +101,7 @@ abstract class Message {
 	 * @param int|null $severity
 	 * @return \n2n\l10n\Message|\n2n\l10n\impl\LstrMessage|\n2n\l10n\impl\StaticMessage
 	 */
-	public static function create($arg, int $severity = null) {
+	public static function create(mixed $arg, int $severity = null) {
 		if ($arg instanceof Message) {
 			return $arg;
 		}
@@ -118,7 +118,7 @@ abstract class Message {
 	 * @param int|null $severity
 	 * @return \n2n\l10n\Message|null
 	 */
-	public static function build($arg, int $severity = null) {
+	public static function build(mixed $arg, int $severity = null) {
 		if ($arg === null) {
 			return null;
 		}
