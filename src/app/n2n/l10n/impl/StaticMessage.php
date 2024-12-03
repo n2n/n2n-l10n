@@ -28,7 +28,7 @@ use n2n\l10n\DynamicTextCollection;
 class StaticMessage extends Message {
 	private $text;
 	
-	public function __construct(string $text, int $severity = null) {
+	public function __construct(string $text, ?int $severity = null) {
 		parent::__construct($severity);
 		
 		$this->text = $text;
@@ -46,7 +46,7 @@ class StaticMessage extends Message {
 		return $this->text;
 	}
 	
-	public function t(N2nLocale $n2nLocale, string $moduleNamespace = null): string {
+	public function t(N2nLocale $n2nLocale, ?string $moduleNamespace = null): string {
 		return $this->text;
 	}
 		

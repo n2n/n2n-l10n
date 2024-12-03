@@ -34,7 +34,7 @@ class TextCodeMessage extends Message {
 	private $num;
 	private $moduleNamespace;
 	
-	public function __construct(string $textCode, array $args = null, int $severity = null, string $moduleNamespace = null, int $num = null) {
+	public function __construct(string $textCode, ?array $args = null, ?int $severity = null, ?string $moduleNamespace = null, ?int $num = null) {
 		parent::__construct($severity);
 		
 		$this->textCode = $textCode;
@@ -79,7 +79,7 @@ class TextCodeMessage extends Message {
 		return $this->moduleNamespace;
 	}
 	
-	public function t(N2nLocale $n2nLocale, string $moduleNamespace = null): string {
+	public function t(N2nLocale $n2nLocale, ?string $moduleNamespace = null): string {
 		$dtc = new DynamicTextCollection($this->moduleNamespace, $n2nLocale);
 		return $this->tByDtc($dtc, $n2nLocale, $moduleNamespace);
 	}

@@ -34,23 +34,23 @@ class DateTimeFormat {
 	private $intlDateFormatter;
 	private $dateTimePattern;
 	
-	public static function createDateInstance($n2nLocale, $dateStyle, \DateTimeZone $timeZone = null) {
+	public static function createDateInstance($n2nLocale, $dateStyle, ?\DateTimeZone $timeZone = null) {
 		return self::createDateTimeInstance($n2nLocale, $dateStyle, self::STYLE_NONE, $timeZone);
 	}
 	
-	public static function createTimeInstance($n2nLocale, $timeStyle, \DateTimeZone $timeZone = null) {
+	public static function createTimeInstance($n2nLocale, $timeStyle, ?\DateTimeZone $timeZone = null) {
 		return self::createDateTimeInstance($n2nLocale, self::STYLE_NONE, $timeStyle, $timeZone);
 	}
 	
 	public static function createDateTimeInstance($n2nLocale, $dateStyle = self::STYLE_MEDIUM, 
-			$timeStyle = self::STYLE_SHORT, \DateTimeZone $timeZone = null) {
+			$timeStyle = self::STYLE_SHORT, ?\DateTimeZone $timeZone = null) {
 		if ($n2nLocale === null) $n2nLocale = N2nLocale::getDefault();
 		if ($timeZone === null) $timeZone = new \DateTimeZone(date_default_timezone_get());
 		
 		return new DateTimeFormat($n2nLocale, $dateStyle, $timeStyle, $timeZone);
 	}
 	
-	private function __construct($n2nLocale, $dateStyle = null, $timeStyle = null, \DateTimeZone $timeZone = null) {
+	private function __construct($n2nLocale, $dateStyle = null, $timeStyle = null, ?\DateTimeZone $timeZone = null) {
 		$this->n2nLocaleId = (string) $n2nLocale;
 		$this->timeZone = $timeZone;
 		

@@ -36,7 +36,7 @@ class L10nUtils {
 	}
 	
 	public static function translateModuleTextCode(DynamicTextCollection $dtc, $module, 
-			$textCode, array $args = null, $num = null, array $replacements = null) {
+			$textCode, ?array $args = null, $num = null, ?array $replacements = null) {
 		$fallbackToCode = $module === null || $dtc->containsModule($module);
 		
 		if (null !== ($text = $dtc->translate($textCode, $args, $num, $replacements, $fallbackToCode))) {
@@ -72,20 +72,20 @@ class L10nUtils {
 	}
 
 	public static function formatDateTimeWithIcuPattern(\DateTimeInterface $dateTime, $n2nLocale, $icuPattern,
-			\DateTimeZone $timeZone = null) {
+			?\DateTimeZone $timeZone = null) {
 		$dateTimeFormatter = new SimpleDateTimeFormat($n2nLocale, $icuPattern, $timeZone);
 		return $dateTimeFormatter->format($dateTime);
 	}
 	
 	public static function parseDateTimeWithIcuPattern($expression, $n2nLocale, $icuPattern, 
-			\DateTimeZone $timeZone = null, $lenient = true) {
+			?\DateTimeZone $timeZone = null, $lenient = true) {
 		$dateTimeFormatter = new SimpleDateTimeFormat($n2nLocale, $icuPattern, $timeZone);
 		$dateTimeFormatter->setLenient($lenient);
 		return $dateTimeFormatter->parse($expression);
 	}
 	
 	public static function formatDateTimeInput(\DateTimeInterface $dateTime, N2nLocale $n2nLocale, $dateStyle = null,
-			$timeStyle = null, \DateTimeZone $timeZone = null) {
+			$timeStyle = null, ?\DateTimeZone $timeZone = null) {
 		if ($dateStyle === null) $dateStyle = self::determineDateStyle($n2nLocale, true);
 		if ($timeStyle === null) $timeStyle = self::determineTimeStyle($n2nLocale, true);
 		
@@ -94,7 +94,7 @@ class L10nUtils {
 	}
 	
 	public static function parseDateTimeInput($expression, N2nLocale $n2nLocale, $dateStyle = null, 
-			$timeStyle = null, \DateTimeZone $timeZone = null, $lenient = true) {
+			$timeStyle = null, ?\DateTimeZone $timeZone = null, $lenient = true) {
 		if ($dateStyle === null) $dateStyle = self::determineDateStyle($n2nLocale, true);
 		if ($timeStyle === null) $timeStyle = self::determineTimeStyle($n2nLocale, true);
 		
@@ -111,8 +111,8 @@ class L10nUtils {
 	 * @param \DateTimeZone $timeZone
 	 * @return string
 	 */
-	public static function formatDateTime(\DateTimeInterface $dateTime, N2nLocale $n2nLocale, string $dateStyle = null,
-			string $timeStyle = null, \DateTimeZone $timeZone = null) {
+	public static function formatDateTime(\DateTimeInterface $dateTime, N2nLocale $n2nLocale, ?string $dateStyle = null,
+			?string $timeStyle = null, ?\DateTimeZone $timeZone = null) {
 		if ($dateStyle === null) $dateStyle = self::determineDateStyle($n2nLocale, false);
 		if ($timeStyle === null) $timeStyle = self::determineTimeStyle($n2nLocale, false);
 
@@ -127,8 +127,8 @@ class L10nUtils {
 	 * @param \DateTimeZone $timeZone
 	 * @return string
 	 */
-	public static function formatDate(\DateTimeInterface $dateTime, N2nLocale $n2nLocale, string $dateStyle = null,
-			\DateTimeZone $timeZone = null) {
+	public static function formatDate(\DateTimeInterface $dateTime, N2nLocale $n2nLocale, ?string $dateStyle = null,
+			?\DateTimeZone $timeZone = null) {
 		return self::formatDateTime($dateTime, $n2nLocale, $dateStyle, DateTimeFormat::STYLE_NONE, $timeZone);
 	}
 	
@@ -139,8 +139,8 @@ class L10nUtils {
 	 * @param \DateTimeZone $timeZone
 	 * @return string
 	 */
-	public static function formatTime(\DateTimeInterface $dateTime, N2nLocale $n2nLocale, string $timeStyle = null,
-			\DateTimeZone $timeZone = null) {
+	public static function formatTime(\DateTimeInterface $dateTime, N2nLocale $n2nLocale, ?string $timeStyle = null,
+			?\DateTimeZone $timeZone = null) {
 		return self::formatDateTime($dateTime, $n2nLocale, DateTimeFormat::STYLE_NONE, $timeStyle, $timeZone);
 	}
 	
@@ -154,7 +154,7 @@ class L10nUtils {
 	 * @return \DateTime
 	 */
 	public static function parseDateTime($expression, $n2nLocale, $dateStyle = null, $timeStyle = null, 
-			\DateTimeZone $timeZone = null, $lenient = true) {
+			?\DateTimeZone $timeZone = null, $lenient = true) {
 		if ($dateStyle === null) $dateStyle = self::determineDateStyle($n2nLocale, false);
 		if ($timeStyle === null) $timeStyle = self::determineTimeStyle($n2nLocale, false);
 

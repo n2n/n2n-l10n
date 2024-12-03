@@ -81,7 +81,7 @@ abstract class Message {
 	 * @param string $moduleNamespace
 	 * @return string
 	 */
-	public abstract function t(N2nLocale $n2nLocale, string $moduleNamespace = null): string;
+	public abstract function t(N2nLocale $n2nLocale, ?string $moduleNamespace = null): string;
 	
 	/**
 	 * @param DynamicTextCollection $dtc
@@ -101,7 +101,7 @@ abstract class Message {
 	 * @param int|null $severity
 	 * @return \n2n\l10n\Message|\n2n\l10n\impl\LstrMessage|\n2n\l10n\impl\StaticMessage
 	 */
-	public static function create(mixed $arg, int $severity = null) {
+	public static function create(mixed $arg, ?int $severity = null) {
 		if ($arg instanceof Message) {
 			return $arg;
 		}
@@ -118,7 +118,7 @@ abstract class Message {
 	 * @param int|null $severity
 	 * @return \n2n\l10n\Message|null
 	 */
-	public static function build(mixed $arg, int $severity = null) {
+	public static function build(mixed $arg, ?int $severity = null) {
 		if ($arg === null) {
 			return null;
 		}
@@ -134,7 +134,7 @@ abstract class Message {
 	 * @param int $num
 	 * @return \n2n\l10n\impl\TextCodeMessage
 	 */
-	public static function createCode(string $code, int $severity = null, string $moduleNamespace = null, int $num = null) {
+	public static function createCode(string $code, ?int $severity = null, ?string $moduleNamespace = null, ?int $num = null) {
 		return new TextCodeMessage($code, null, $severity, $moduleNamespace, $num);
 	}
 	
@@ -146,7 +146,7 @@ abstract class Message {
 	 * @param int $num
 	 * @return \n2n\l10n\impl\TextCodeMessage
 	 */
-	public static function createCodeArg(string $code, array $args = null, int $severity = null, string $moduleNamespace = null, int $num = null) {
+	public static function createCodeArg(string $code, ?array $args = null, ?int $severity = null, ?string $moduleNamespace = null, ?int $num = null) {
 		return new TextCodeMessage($code, $args, $severity, $moduleNamespace, $num);
 	}
 }

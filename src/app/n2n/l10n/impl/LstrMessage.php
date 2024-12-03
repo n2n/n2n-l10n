@@ -29,7 +29,7 @@ use n2n\l10n\Lstr;
 class LstrMessage extends Message {
 	private $lstr;
 	
-	public function __construct(Lstr $lstr, int $severity = null) {
+	public function __construct(Lstr $lstr, ?int $severity = null) {
 		parent::__construct($severity);
 		
 		$this->lstr = $lstr;
@@ -47,11 +47,11 @@ class LstrMessage extends Message {
 		return $this->lstr;
 	}
 	
-	public function t(N2nLocale $n2nLocale, string $moduleNamespace = null): string {
+	public function t(N2nLocale $n2nLocale, ?string $moduleNamespace = null): string {
 		return $this->lstr->t($n2nLocale);
 	}
 		
-	public function tByDtc(DynamicTextCollection $dtc, N2nLocale $n2nLocale, string $moduleNamespace = null): string {
+	public function tByDtc(DynamicTextCollection $dtc, N2nLocale $n2nLocale, ?string $moduleNamespace = null): string {
 		return $this->t($n2nLocale, $moduleNamespace);
 	}
 	

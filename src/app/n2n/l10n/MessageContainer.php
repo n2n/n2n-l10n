@@ -37,7 +37,7 @@ class MessageContainer implements ShutdownListener, ThreadScoped {
 	private $httpContext;
 	private $response;
 	
-	private function _init(HttpContext $httpContext = null, Response $response = null) {
+	private function _init(?HttpContext $httpContext = null, ?Response $response = null) {
 		$this->httpContext = $httpContext;
 		$this->response = $response;
 		
@@ -107,34 +107,34 @@ class MessageContainer implements ShutdownListener, ThreadScoped {
 		return $messages;
 	}
 	
-	public function addInfo($text, string $groupName = null) {
+	public function addInfo($text, ?string $groupName = null) {
 		$this->add(Message::create($text, Message::SEVERITY_INFO), $groupName);
 	}
 	
-	public function addInfoCode($code, array $args = null, string $groupName = null, $module = null) {
+	public function addInfoCode($code, ?array $args = null, ?string $groupName = null, $module = null) {
 		$this->add(Message::createCodeArg($code, $args, Message::SEVERITY_INFO, $module), $groupName);
 	}
 	
-	public function addWarn($text, string $groupName = null) {
+	public function addWarn($text, ?string $groupName = null) {
 		$this->add(Message::create($text, Message::SEVERITY_WARN), $groupName);
 	}
 	
-	public function addWarnCode($code, array $args = null, string $groupName = null, $module = null) {
+	public function addWarnCode($code, ?array $args = null, ?string $groupName = null, $module = null) {
 		$this->add(Message::createCodeArg($code, $args, Message::SEVERITY_WARN, $module), $groupName);
 	}
 	
-	public function addError($text, string $groupName = null) {
+	public function addError($text, ?string $groupName = null) {
 		$this->add(Message::create($text, Message::SEVERITY_ERROR), $groupName);
 	}
 	
-	public function addErrorCode($code, array $args = null, string $groupName = null, $module = null) {
+	public function addErrorCode($code, ?array $args = null, ?string $groupName = null, $module = null) {
 		$this->add(Message::createCodeArg($code, $args, Message::SEVERITY_ERROR, $module), $groupName);
 	}
 	
 	/**
 	 * @param string|null $groupName
 	 */
-	public function clear(string $groupName = null) {
+	public function clear(?string $groupName = null) {
 		if ($groupName === null) {
 			$this->messages = array();
 			return;

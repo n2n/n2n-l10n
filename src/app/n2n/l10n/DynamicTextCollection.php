@@ -169,12 +169,12 @@ class DynamicTextCollection {
 	 * @param bool $fallbackToCode
 	 * @return string|null
 	 */
-	public function t(string $code, array $args = null, int $num = null, array $replacements = null, 
+	public function t(string $code, ?array $args = null, ?int $num = null, ?array $replacements = null, 
 			bool $fallbackToPrettyCode = true) {
 		return $this->translate($code, $args, $num, $replacements, $fallbackToPrettyCode);
 	}
 	
-	public function lt($n2nLocale, string $code, array $args = null, int $num = null, array $replacements = null,
+	public function lt($n2nLocale, string $code, ?array $args = null, ?int $num = null, ?array $replacements = null,
 			bool $fallbackToPrettyCode = true) {
 		return $this->translate($code, $args, $num, $replacements, $fallbackToPrettyCode, N2nLocale::create($n2nLocale));
 	}
@@ -186,7 +186,7 @@ class DynamicTextCollection {
 	 * @param boolean $fallbackToPrettyCode
 	 * @return string|null
 	 */
-	public function translate(string $code, array $args = null, int $num = null, array $replacements = null, 
+	public function translate(string $code, ?array $args = null, ?int $num = null, ?array $replacements = null, 
 			bool $fallbackToPrettyCode = true, N2nLocale ...$n2nLocales) {
 		foreach ($n2nLocales as $n2nLocale) {
 			$text = $this->translateForN2nLocale((string) $n2nLocale, $code, (array) $args, $num, $replacements);
@@ -210,7 +210,7 @@ class DynamicTextCollection {
 		return null;
 	}
 	
-	private function replace($text, array $replacements = null) {
+	private function replace($text, ?array $replacements = null) {
 		if ($replacements === null) return $text;
 		
 		foreach ($replacements as $key => $replacement) {

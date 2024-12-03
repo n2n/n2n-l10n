@@ -128,7 +128,7 @@ class TextCollection {
 	 * @param bool $fallbackToCode
 	 * @return string null if $fallbackToCode is false an no text was found.
 	 */
-	public function translate($code, array $args = null, int $num = null, bool $fallbackToCode = true) {
+	public function translate($code, ?array $args = null, ?int $num = null, bool $fallbackToCode = true) {
 		$text = $this->get($code, $num);
 		if ($text === null) {
 			if (!$fallbackToCode) return null;
@@ -144,7 +144,7 @@ class TextCollection {
 	 * @param array|null $args
 	 * @return string
 	 */
-	public static function fillArgs(string $text, array $args = null): string {
+	public static function fillArgs(string $text, ?array $args = null): string {
 		foreach ((array) $args as $name => $value) {
 			$text = str_replace(self::ARG_PREFIX . $name . self::ARG_SUFFIX, $value ?? '', $text);
 		}
@@ -158,7 +158,7 @@ class TextCollection {
 	 * @param array $args
 	 * @return string
 	 */
-	public static function implode($langKey, array $args = null) {
+	public static function implode($langKey, ?array $args = null) {
 		// replace suffix like _txt, _label, _tooltip...
 		$langKey = preg_replace('/_[^_]*$/', '', $langKey);
 		

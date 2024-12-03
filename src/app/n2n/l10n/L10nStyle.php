@@ -31,8 +31,8 @@ class L10nStyle {
 	private $inputTimeStyle;
 	private $dateTimeFormat;
 	
-	public function __construct(string $defaultDateStyle = null, string $defaultTimeStyle = null, 
-			string $inputDateStyle = null, string $inputTimeStyle = null, string $dateTimeFormat = null) {
+	public function __construct(?string $defaultDateStyle = null, ?string $defaultTimeStyle = null, 
+			?string $inputDateStyle = null, ?string $inputTimeStyle = null, ?string $dateTimeFormat = null) {
 		$this->defaultDateStyle = $defaultDateStyle;
 		$this->defaultTimeStyle = $defaultTimeStyle;
 		$this->inputDateStyle = $inputDateStyle;

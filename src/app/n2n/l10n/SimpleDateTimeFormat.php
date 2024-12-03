@@ -25,7 +25,7 @@ class SimpleDateTimeFormat {
 	private $formatter;
 	private $timeZone;
 	
-	public function __construct($n2nLocale, $pattern, \DateTimeZone $timeZone = null) {		
+	public function __construct($n2nLocale, $pattern, ?\DateTimeZone $timeZone = null) {		
 		$this->formatter = new \IntlDateFormatter((string) $n2nLocale, \IntlDateFormatter::FULL, \IntlDateFormatter::FULL);
 		$this->formatter->setPattern((string) $pattern);
 		$this->timeZone = $timeZone;
