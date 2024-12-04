@@ -47,8 +47,6 @@ class L10nUtilsTest extends TestCase {
 	}
 
 	public function testFormatTime() {
-		$this->markTestSkipped('CI-Bob problems');
-
 		$dateTimeImmutable = new \DateTimeImmutable('1.4.2022 22:20:02');
 		$dateTime = new \DateTime('1.4.2022 22:20:02');
 
