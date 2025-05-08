@@ -169,7 +169,7 @@ class L10nUtils {
 	 * @return string
 	 */
 	public static function determineDateStyle(N2nLocale $n2nLocale, bool $useInput = false) {
-		if (null !== ($style = L10n::getL10nConfig()->getStyle($n2nLocale))) {
+		if (class_exists(N2N::class) && null !== ($style = L10n::getL10nConfig()->getStyle($n2nLocale))) {
 			return $useInput ? $style->geDefaultInputDateStyle() : $style->getDefaultDateStyle();
 		}
 		
@@ -182,7 +182,7 @@ class L10nUtils {
 	 * @return string
 	 */
 	public static function determineTimeStyle(N2nLocale $n2nLocale, bool $useInput = false) {
-		if (null !== ($style = N2N::getAppConfig()->l10n()->getStyle($n2nLocale))) {
+		if (class_exists(N2N::class) && null !== ($style = N2N::getAppConfig()->l10n()->getStyle($n2nLocale))) {
 			return $useInput ? $style->getDefaultInputTimeStyle() : $style->getDefaultTimeStyle();
 		}
 		
