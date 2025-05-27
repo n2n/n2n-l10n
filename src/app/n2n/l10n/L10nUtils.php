@@ -28,7 +28,7 @@ class L10nUtils {
 		return class_exists('\Locale', false);
 	}
 		
-	public static function ensureL10nsupportIsAvailable() {
+	public static function ensureL10nsupportIsAvailable(): void {
 		if (self::isL10nSupportAvailable()) return;
 		
 		throw new L10nSupportNotAvailableException(
