@@ -21,7 +21,7 @@
 		}
 	],
 	"require" : {
-		"n2n/n2n-util": "~7.4"
+		"n2n/n2n-util": "~7.5.0"
 	},
 	"autoload" : {
 		"psr-4" : {
