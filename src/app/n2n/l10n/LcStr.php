@@ -4,7 +4,7 @@ namespace n2n\l10n;
 
 use n2n\util\magic\MagicContext;
 
-interface LcStr {
+interface LcStr extends \Stringable {
 
-	function t(MagicContext $magicContext, ?N2nLocale $n2nLocale = null): string;
+	function composeString(MagicContext $magicContext, ?N2nLocale $n2nLocale = null): string;
 }
