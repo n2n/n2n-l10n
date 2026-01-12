@@ -25,8 +25,9 @@ use n2n\util\StringUtils;
 use n2n\l10n\impl\LstrMessage;
 use n2n\l10n\impl\StaticMessage;
 use n2n\l10n\impl\TextCodeMessage;
+use n2n\util\magic\MagicContext;
 
-abstract class Message {
+abstract class Message implements LcStr {
 	const SEVERITY_SUCCESS = 1;
 	const SEVERITY_INFO = 2;
 	const SEVERITY_WARN = 4;
@@ -75,7 +76,12 @@ abstract class Message {
 		return $this;
 	}
 	
-	
+
+	public function composeString(MagicContext $magicContext, ?N2nLocale $n2nLocale = null): string {
+		return $this->t($n2nLocale ?? $magicContext->lookup(N2nLocale::class, false)
+				?? N2nLocale::getDefault());
+	}
+
 	/**
 	 * @param N2nLocale $n2nLocale
 	 * @param string $moduleNamespace
