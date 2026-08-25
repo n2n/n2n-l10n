@@ -21,6 +21,8 @@
  */
 namespace n2n\l10n;
 
+use n2n\util\ex\ExUtils;
+
 class DateTimeFormat {
 	const STYLE_NONE = 'none';
 	const STYLE_SHORT = 'short';
@@ -135,23 +137,25 @@ class DateTimeFormat {
 		}
 	}
 	
-	public static function getStyles() {
+	public static function getStyles(): array {
 		return array(self::STYLE_NONE, self::STYLE_SHORT, self::STYLE_MEDIUM, 
 				self::STYLE_LONG, self::STYLE_FULL);
 	}
 	
-	public function setLenient($lenient) {
+	public function setLenient($lenient): void {
 		$this->lenient = (boolean) $lenient;
 		
 		if (isset($this->intlDateFormatter)) {
 			$this->intlDateFormatter->setLenient($lenient);
 		}
 	}
+
 	/**
 	 * @param string $str
 	 * @return \DateTime
+	 * @throws ParseException
 	 */
-	public function parse($str) {
+	public function parse(string $str): \DateTime {
 		if (isset($this->intlDateFormatter)) {
 			$timestamp = $this->intlDateFormatter->parse($str);
 			if (!$timestamp || is_float($timestamp)) {
@@ -161,7 +165,7 @@ class DateTimeFormat {
 			$dt = new \DateTime();
 			$dt->setTimestamp($timestamp);
 			if (null !== ($timeZoneId = $this->intlDateFormatter->getTimeZoneId())) {
-				$dt->setTimezone(new \DateTimeZone($timeZoneId));
+				$dt->setTimezone(ExUtils::try(fn () => new \DateTimeZone($timeZoneId)));
 			}
 			return $dt;
 		}

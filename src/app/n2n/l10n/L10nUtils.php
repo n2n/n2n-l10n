@@ -92,9 +92,12 @@ class L10nUtils {
 		$dateTimeFormat = DateTimeFormat::createDateTimeInstance($n2nLocale, $dateStyle, $timeStyle, $timeZone);
 		return $dateTimeFormat->format($dateTime);
 	}
-	
-	public static function parseDateTimeInput($expression, N2nLocale $n2nLocale, $dateStyle = null, 
-			$timeStyle = null, ?\DateTimeZone $timeZone = null, $lenient = true) {
+
+	/**
+	 * @throws ParseException
+	 */
+	public static function parseDateTimeInput($expression, N2nLocale $n2nLocale, $dateStyle = null,
+			$timeStyle = null, ?\DateTimeZone $timeZone = null, $lenient = true): \DateTime {
 		if ($dateStyle === null) $dateStyle = self::determineDateStyle($n2nLocale, true);
 		if ($timeStyle === null) $timeStyle = self::determineTimeStyle($n2nLocale, true);
 		
@@ -112,7 +115,7 @@ class L10nUtils {
 	 * @return string
 	 */
 	public static function formatDateTime(\DateTimeInterface $dateTime, N2nLocale $n2nLocale, ?string $dateStyle = null,
-			?string $timeStyle = null, ?\DateTimeZone $timeZone = null) {
+			?string $timeStyle = null, ?\DateTimeZone $timeZone = null): string {
 		if ($dateStyle === null) $dateStyle = self::determineDateStyle($n2nLocale, false);
 		if ($timeStyle === null) $timeStyle = self::determineTimeStyle($n2nLocale, false);
 
@@ -128,7 +131,7 @@ class L10nUtils {
 	 * @return string
 	 */
 	public static function formatDate(\DateTimeInterface $dateTime, N2nLocale $n2nLocale, ?string $dateStyle = null,
-			?\DateTimeZone $timeZone = null) {
+			?\DateTimeZone $timeZone = null): string {
 		return self::formatDateTime($dateTime, $n2nLocale, $dateStyle, DateTimeFormat::STYLE_NONE, $timeZone);
 	}
 	
@@ -140,21 +143,22 @@ class L10nUtils {
 	 * @return string
 	 */
 	public static function formatTime(\DateTimeInterface $dateTime, N2nLocale $n2nLocale, ?string $timeStyle = null,
-			?\DateTimeZone $timeZone = null) {
+			?\DateTimeZone $timeZone = null): string {
 		return self::formatDateTime($dateTime, $n2nLocale, DateTimeFormat::STYLE_NONE, $timeStyle, $timeZone);
 	}
-	
+
 	/**
 	 * @param string $expression
 	 * @param N2nLocale $n2nLocale
-	 * @param string $dateStyle
-	 * @param string $timeStyle
-	 * @param \DateTimeZone $timeZone
+	 * @param string|null $dateStyle
+	 * @param string|null $timeStyle
+	 * @param \DateTimeZone|null $timeZone
 	 * @param bool $lenient
 	 * @return \DateTime
+	 * @throws ParseException
 	 */
-	public static function parseDateTime($expression, $n2nLocale, $dateStyle = null, $timeStyle = null, 
-			?\DateTimeZone $timeZone = null, $lenient = true) {
+	public static function parseDateTime(string $expression, N2nLocale $n2nLocale, ?string $dateStyle = null,
+			?string $timeStyle = null, ?\DateTimeZone $timeZone = null, bool $lenient = true): \DateTime {
 		if ($dateStyle === null) $dateStyle = self::determineDateStyle($n2nLocale, false);
 		if ($timeStyle === null) $timeStyle = self::determineTimeStyle($n2nLocale, false);
 
@@ -168,7 +172,7 @@ class L10nUtils {
 	 * @param bool $useInput
 	 * @return string
 	 */
-	public static function determineDateStyle(N2nLocale $n2nLocale, bool $useInput = false) {
+	public static function determineDateStyle(N2nLocale $n2nLocale, bool $useInput = false): string {
 		if (class_exists(N2N::class) && null !== ($style = L10n::getL10nConfig()->getStyle($n2nLocale))) {
 			return $useInput ? $style->geDefaultInputDateStyle() : $style->getDefaultDateStyle();
 		}
@@ -181,7 +185,7 @@ class L10nUtils {
 	 * @param bool $useInput
 	 * @return string
 	 */
-	public static function determineTimeStyle(N2nLocale $n2nLocale, bool $useInput = false) {
+	public static function determineTimeStyle(N2nLocale $n2nLocale, bool $useInput = false): string {
 		if (class_exists(N2N::class) && null !== ($style = N2N::getAppConfig()->l10n()->getStyle($n2nLocale))) {
 			return $useInput ? $style->getDefaultInputTimeStyle() : $style->getDefaultTimeStyle();
 		}
