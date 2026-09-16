@@ -29,11 +29,10 @@ class N2nLocale implements UrlableElement {
 	/**
 	 * 
 	 * @param string $n2nLocaleExpression
-	 * @throws IllegalN2nLocaleFormatException
 	 */
 	public function __construct(string $n2nLocaleId) {
 		if (2 > strlen($n2nLocaleId)) {
-			throw new IllegalN2nLocaleFormatException('Invalid locale id: ' . $n2nLocaleId);
+			throw new \InvalidArgumentException('Invalid locale id: ' . $n2nLocaleId);
 		}
 		// @todo parseN2nLocale
 		
@@ -167,13 +166,24 @@ class N2nLocale implements UrlableElement {
 		
 		return str_replace('-', '_', mb_substr($httpN2nLocaleShort, 0, 3) . mb_strtoupper(mb_substr($httpN2nLocaleShort, 3, 2)));
 	}
-	
+
+	/**
+	 * @throws IllegalN2nLocaleFormatException
+	 */
+	public static function parse(string $expression): N2nLocale  {
+		if (2 > strlen($expression)) {
+			throw new IllegalN2nLocaleFormatException('Invalid locale id: ' . $expression);
+		}
+
+		return new N2nLocale($expression);
+	}
+
 	/**
 	 * @param string $httpN2nLocaleShort
 	 * @return string
 	 * @throws IllegalN2nLocaleFormatException
 	 */
-	public static function parseWebId(string $webId, bool $ignoreAliases = false) {
+	public static function parseWebId(string $webId, bool $ignoreAliases = false): string {
 		if (!$ignoreAliases && isset(self::$webAliasN2nLocales[$webId])) {
 			return self::$webAliasN2nLocales[$webId]->getId();
 		}

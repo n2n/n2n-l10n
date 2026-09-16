@@ -21,6 +21,8 @@
  */
 namespace n2n\l10n;
 
-class IllegalN2nLocaleFormatException extends L10nRuntimeException {
+use n2n\l10n\ex\L10nException;
+
+class IllegalN2nLocaleFormatException extends L10nException {
 
 }
