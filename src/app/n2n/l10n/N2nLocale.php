@@ -170,20 +170,20 @@ class N2nLocale implements UrlableElement {
 		return str_replace('-', '_', mb_substr($httpN2nLocaleShort, 0, 3) . mb_strtoupper(mb_substr($httpN2nLocaleShort, 3, 2)));
 	}
 
-	/**
-	 * @throws IllegalN2nLocaleFormatException
-	 */
-	public static function from(string $expression): N2nLocale  {
-		if (2 > strlen($expression)) {
-			throw new IllegalN2nLocaleFormatException('Invalid locale id: ' . $expression);
-		}
-
-		try {
-			return new N2nLocale($expression);
-		} catch (IllegalStateException $e) {
-			throw new \InvalidArgumentException($e->getMessage(), previous: $e);
-		}
-	}
+//	/**
+//	 * @throws IllegalN2nLocaleFormatException
+//	 */
+//	public static function from(string $expression): N2nLocale  {
+//		if (2 > strlen($expression)) {
+//			throw new IllegalN2nLocaleFormatException('Invalid locale id: ' . $expression);
+//		}
+//
+//		try {
+//			return new N2nLocale($expression);
+//		} catch (IllegalStateException $e) {
+//			throw new \InvalidArgumentException($e->getMessage(), previous: $e);
+//		}
+//	}
 
 	/**
 	 * @param string $httpN2nLocaleShort
