@@ -23,18 +23,21 @@ namespace n2n\l10n;
 
 use n2n\util\type\ArgUtils;
 use n2n\util\uri\UrlableElement;
+use n2n\l10n\ex\L10nException;
+use n2n\util\ex\IllegalStateException;
 
 class N2nLocale implements UrlableElement {
 	private $id;
+
 	/**
-	 * 
-	 * @param string $n2nLocaleExpression
+	 *
+	 * @param string $n2nLocaleId
+	 * @throws IllegalN2nLocaleFormatException
 	 */
 	public function __construct(string $n2nLocaleId) {
 		if (2 > strlen($n2nLocaleId)) {
-			throw new \InvalidArgumentException('Invalid locale id: ' . $n2nLocaleId);
+			throw new IllegalN2nLocaleFormatException('Invalid locale id: ' . $n2nLocaleId);
 		}
-		// @todo parseN2nLocale
 		
 		$this->id = (string) $n2nLocaleId;
 	}
@@ -170,12 +173,16 @@ class N2nLocale implements UrlableElement {
 	/**
 	 * @throws IllegalN2nLocaleFormatException
 	 */
-	public static function parse(string $expression): N2nLocale  {
+	public static function from(string $expression): N2nLocale  {
 		if (2 > strlen($expression)) {
 			throw new IllegalN2nLocaleFormatException('Invalid locale id: ' . $expression);
 		}
 
-		return new N2nLocale($expression);
+		try {
+			return new N2nLocale($expression);
+		} catch (IllegalStateException $e) {
+			throw new \InvalidArgumentException($e->getMessage(), previous: $e);
+		}
 	}
 
 	/**
