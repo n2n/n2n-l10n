@@ -194,8 +194,8 @@ class N2nLocale implements UrlableElement {
 		if (!$ignoreAliases && isset(self::$webAliasN2nLocales[$webId])) {
 			return self::$webAliasN2nLocales[$webId]->getId();
 		}
-		
-		if (mb_strlen($webId) < 2) {
+
+		if (!preg_match('/^[a-z]{2}(-[a-z]{2})?$/', $webId)) {
 			throw new IllegalN2nLocaleFormatException('Invalid http locale id: ' . $webId);
 		}
 		
