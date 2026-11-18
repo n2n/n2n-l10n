@@ -23,8 +23,6 @@ namespace n2n\l10n;
 
 use n2n\util\type\ArgUtils;
 use n2n\util\uri\UrlableElement;
-use n2n\l10n\ex\L10nException;
-use n2n\util\ex\IllegalStateException;
 
 class N2nLocale implements UrlableElement {
 	private $id;
