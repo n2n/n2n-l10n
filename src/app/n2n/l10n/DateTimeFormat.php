@@ -58,10 +58,10 @@ class DateTimeFormat {
 		
 		if (L10n::getL10nConfig()->isEnabled()) {
 			L10nUtils::ensureL10nsupportIsAvailable();
-			return $this->initL10nFormat(L10n::getL10nConfig(), 
+			$this->initL10nFormat(L10n::getL10nConfig(), 
 					$this->convertStyle($dateStyle), $this->convertStyle($timeStyle), $timeZone);
 		} else {
-			return $this->initPseudoL10nFormat(L10n::getPseudoL10nConfig(), $dateStyle, $timeStyle, $timeZone);
+			$this->initPseudoL10nFormat(L10n::getPseudoL10nConfig(), $dateStyle, $timeStyle, $timeZone);
 		}
 	}
 	
@@ -143,7 +143,7 @@ class DateTimeFormat {
 	}
 	
 	public function setLenient($lenient): void {
-		$this->lenient = (boolean) $lenient;
+		$this->lenient = (bool) $lenient;
 		
 		if (isset($this->intlDateFormatter)) {
 			$this->intlDateFormatter->setLenient($lenient);

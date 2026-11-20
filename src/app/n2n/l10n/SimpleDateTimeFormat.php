@@ -46,7 +46,7 @@ class SimpleDateTimeFormat {
 	 * @param bool $lenient
 	 */
 	public function setLenient($lenient) {
-		$this->formatter->setLenient((boolean) $lenient);
+		$this->formatter->setLenient((bool) $lenient);
 	}
 	/**
 	 * 
