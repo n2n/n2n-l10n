@@ -67,12 +67,12 @@ class MessageContainer implements ShutdownListener, ThreadScoped {
 	 * @param Message $message	the Message object. 
 	 * @param string $groupName	the name of the group, which helps to categorize messages. 
 	 */
-	public function add(Message $message, $groupName = null) {
-		if (!isset($this->messages[$groupName])) {
-			$this->messages[$groupName] = array();
+	public function add(Message $message, ?string $groupName = null) {
+		if (!isset($this->messages[(string) $groupName])) {
+			$this->messages[(string) $groupName] = array();
 		}	
 		
-		$this->messages[$groupName][] = $message;
+		$this->messages[(string) $groupName][] = $message;
 	}
 	
 	/**
@@ -91,15 +91,15 @@ class MessageContainer implements ShutdownListener, ThreadScoped {
 	 * @param string $groupName
 	 * @return array
 	 */
-	public function getAll($groupName = null, $severity = null) {
-		if (!isset($this->messages[$groupName])) return array();
+	public function getAll(?string $groupName = null, $severity = null) {
+		if (!isset($this->messages[(string) $groupName])) return array();
 		
 		if (is_null($severity)) {
-			return $this->messages[$groupName];
+			return $this->messages[(string) $groupName];
 		}
 		
 		$messages = array();
-		foreach ($this->messages[$groupName] as $message) {
+		foreach ($this->messages[(string) $groupName] as $message) {
 			if ($message->getSeverity() & $severity) {
 				$messages[] = $message;
 			} 
